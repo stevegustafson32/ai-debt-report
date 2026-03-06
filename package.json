@@ -1,0 +1,11 @@
+{
+  "name": "ai-debt-report",
+  "version": "1.0.0",
+  "description": "AI Data Center Debt Derivatives Interactive Report",
+  "scripts": {
+    "start": "npx serve public -s -l ${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
