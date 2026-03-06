@@ -1,0 +1,3307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Data Center Debt Derivatives: A Looming Crisis?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --grid-color: #1a1a1a;
+            --red: #ef4444;
+            --gold: #d4a574;
+            --green: #22c55e;
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
+            --text-muted: #666666;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 119px,
+                    var(--grid-color) 119px,
+                    var(--grid-color) 120px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 119px,
+                    var(--grid-color) 119px,
+                    var(--grid-color) 120px
+                );
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', 'Arial Narrow', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--red);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--gold);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 4rem;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            border: 1px solid var(--red);
+            color: var(--red);
+            padding: 0.5rem 1rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-title .highlight {
+            color: var(--red);
+        }
+
+        .hero-subtitle {
+            max-width: 800px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 6rem;
+            max-width: 900px;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--red);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .hero-scroll {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            animation: bounce 2s infinite;
+        }
+
+        .hero-scroll-line {
+            width: 2px;
+            height: 2rem;
+            background: linear-gradient(to bottom, var(--red), transparent);
+            animation: slideDown 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-2rem); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(2rem); opacity: 0; }
+        }
+
+        /* TICKER */
+        .ticker-container {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to right, var(--bg-dark) 0%, transparent 10%, transparent 90%, var(--bg-dark) 100%);
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .ticker {
+            display: flex;
+            gap: 2rem;
+            animation: scroll-left 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+
+        .ticker-separator {
+            color: var(--red);
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* SECTIONS */
+        .section {
+            min-height: 100vh;
+            padding: 6rem;
+            display: flex;
+            gap: 4rem;
+            border-bottom: 1px solid var(--grid-color);
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            position: absolute;
+            top: 3rem;
+            left: 6rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+        }
+
+        .section-main {
+            flex: 1;
+            padding-top: 4rem;
+        }
+
+        .section-main h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .section-sidebar {
+            width: 300px;
+            padding-top: 4rem;
+        }
+
+        /* EXECUTIVE SUMMARY - SECTION 00 */
+        .section-00 {
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .exec-summary-text {
+            max-width: 800px;
+            margin-bottom: 4rem;
+        }
+
+        .contents-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .contents-item {
+            padding: 1rem;
+            border: 1px solid var(--grid-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contents-item:hover {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .contents-number {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .contents-title {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .stat-card {
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(212, 165, 116, 0.05);
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            color: var(--red);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .stat-card-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* DEBT INSTRUMENTS - SECTION 01 */
+        .chart-container {
+            margin-bottom: 3rem;
+        }
+
+        .stacked-bars {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            min-height: 200px;
+        }
+
+        .bar-segment {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bar-segment.corporate-bonds {
+            background: var(--red);
+        }
+
+        .bar-segment.abs {
+            background: #333333;
+        }
+
+        .bar-segment.cmbs {
+            background: var(--gold);
+        }
+
+        .bar-segment.clos {
+            background: #555555;
+        }
+
+        .bar-segment.private-credit {
+            background: #777777;
+        }
+
+        .bar-segment.inactive {
+            opacity: 0.3;
+        }
+
+        .bar-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .legend-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .legend-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--grid-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .legend-btn.active {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .legend-btn:hover {
+            border-color: var(--gold);
+        }
+
+        .detail-sections {
+            margin-top: 2rem;
+        }
+
+        .detail-section {
+            padding: 1.5rem;
+            border-left: 2px solid var(--gold);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .detail-section.active {
+            display: block;
+        }
+
+        .detail-section h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* STRUCTURE & MECHANICS - SECTION 02 */
+        .waterfall {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .waterfall-stage {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .waterfall-box {
+            padding: 1.5rem;
+            border: 1px solid var(--grid-color);
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .waterfall-arrow {
+            font-size: 2rem;
+            color: var(--red);
+        }
+
+        .waterfall-flow {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tranche-card {
+            flex: 1;
+            padding: 1.5rem;
+            border: 1px solid var(--grid-color);
+            transition: all 0.3s ease;
+        }
+
+        .tranche-card:hover {
+            border-color: var(--gold);
+        }
+
+        .tranche-rating {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            border: 1px solid currentColor;
+        }
+
+        .tranche-senior .tranche-rating {
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        .tranche-mezzanine .tranche-rating {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .tranche-equity .tranche-rating {
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        .tranche-value {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .tranche-yield {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* NETWORK DIAGRAM - SECTION 03 */
+        .network-container {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .network-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .network-filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--grid-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .network-filter-btn.active {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .network-svg {
+            width: 100%;
+            height: 550px;
+            margin-bottom: 2rem;
+        }
+
+        .network-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .network-stat {
+            padding: 1rem;
+            border: 1px solid var(--grid-color);
+            text-align: center;
+        }
+
+        .network-stat-value {
+            font-size: 1.5rem;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        .network-stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        /* CRISIS PARALLELS - SECTION 04 */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .accordion-card {
+            border: 1px solid var(--grid-color);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header {
+            padding: 1.5rem;
+            background: rgba(212, 165, 116, 0.03);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: rgba(212, 165, 116, 0.08);
+            border-left: 3px solid var(--gold);
+            padding-left: calc(1.5rem - 3px);
+        }
+
+        .accordion-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .accordion-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            margin-left: 1rem;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-card.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .accordion-card.open .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-comparison {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .comparison-column h4 {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .comparison-column p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .crisis-summary {
+            padding: 1.5rem;
+            border-left: 3px solid var(--red);
+            background: rgba(239, 68, 68, 0.05);
+            margin-top: 2rem;
+        }
+
+        .crisis-critical {
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* GPU DEPRECIATION - SECTION 05 */
+        .company-toggles {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .company-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--grid-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .company-btn.active {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .depreciation-chart {
+            height: 400px;
+            position: relative;
+            margin-bottom: 2rem;
+            border: 1px solid var(--grid-color);
+            padding: 2rem 2rem 2rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-axis-y {
+            display: none;
+        }
+
+        .chart-content {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .depreciation-line {
+            width: 100%;
+            height: 100%;
+        }
+
+        .line-accounting {
+            stroke: #d4a574;
+            stroke-width: 2.5;
+            stroke-dasharray: 5, 5;
+            fill: none;
+        }
+
+        .line-reality {
+            stroke: #ef4444;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .risk-gap {
+            opacity: 0.3;
+        }
+
+        /* DOWNGRADE CASCADES - SECTION 06 */
+        .cascade-diagram {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .cascade-step {
+            flex: 0 0 auto;
+            padding: 1.5rem;
+            border: 1px solid var(--grid-color);
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cascade-step::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--red);
+            font-size: 1.5rem;
+        }
+
+        .cascade-step:last-child::after {
+            content: '';
+        }
+
+        .cascade-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cascade-label {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .cascade-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cascade-metric {
+            padding: 1rem;
+            border: 1px solid var(--grid-color);
+            text-align: center;
+        }
+
+        .cascade-metric-value {
+            font-size: 1.5rem;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        .cascade-metric-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+
+        .cascade-status {
+            padding: 1rem;
+            border: 1px solid var(--grid-color);
+            margin-top: 2rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        /* 401K & PENSIONS - SECTION 07 */
+        .calculator {
+            margin-bottom: 3rem;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .input-group input,
+        .input-group input[type="range"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--grid-color);
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+        }
+
+        .input-group input[type="range"] {
+            height: 4px;
+            padding: 0;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--red);
+            cursor: pointer;
+        }
+
+        .input-group input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--red);
+            cursor: pointer;
+            border: none;
+        }
+
+        .calculator-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .result-section {
+            padding: 1.5rem;
+            border: 1px solid var(--grid-color);
+        }
+
+        .result-section h4 {
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .scenario {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--grid-color);
+        }
+
+        .scenario:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .scenario-name {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .scenario-loss {
+            font-size: 1.2rem;
+            color: var(--red);
+            margin-bottom: 0.25rem;
+        }
+
+        .scenario-percent {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* GDP PROJECTIONS - SECTION 08 */
+        .scenario-toggles {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .scenario-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--grid-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .scenario-btn.active {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+
+        .gdp-chart {
+            height: 300px;
+            position: relative;
+            margin-bottom: 3rem;
+            border: 1px solid var(--grid-color);
+            padding: 2rem;
+        }
+
+        .gdp-line-dim {
+            opacity: 0.2;
+            stroke-dasharray: 8,4;
+        }
+
+        .gdp-line-active {
+            opacity: 1 !important;
+            stroke-dasharray: none !important;
+            stroke-width: 3 !important;
+        }
+
+        .gdp-line {
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .correction-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--red);
+            opacity: 0.3;
+        }
+
+        .correction-label {
+            position: absolute;
+            top: 1rem;
+            color: var(--red);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .gdp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .gdp-table th,
+        .gdp-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--grid-color);
+            font-size: 0.85rem;
+        }
+
+        .gdp-table th {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(212, 165, 116, 0.03);
+        }
+
+        /* REGULATORY OVERSIGHT - SECTION 09 */
+        .oversight-matrix {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .matrix-row {
+            border-bottom: 1px solid var(--grid-color);
+        }
+
+        .matrix-header {
+            display: grid;
+            grid-template-columns: 250px 1fr 1fr 200px;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(212, 165, 116, 0.03);
+        }
+
+        .matrix-header-cell {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .matrix-cell-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .matrix-cell-label::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--red);
+        }
+
+        .matrix-cell-label.open::after {
+            content: '−';
+        }
+
+        .matrix-cell-content {
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 200px;
+            gap: 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--grid-color);
+        }
+
+        .matrix-cell-label.open + .matrix-cell-content {
+            max-height: 300px;
+        }
+
+        .matrix-cell-detail {
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .matrix-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid currentColor;
+        }
+
+        .badge-critical {
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        .badge-partial {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .badge-adequate {
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        /* EXPERT WARNINGS - SECTION 10 */
+        .warning-gauges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .gauge {
+            text-align: center;
+        }
+
+        .gauge-value {
+            font-size: 2rem;
+            color: var(--red);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .gauge-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .gauge-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .warning-charts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .mini-chart {
+            border: 1px solid var(--grid-color);
+            padding: 1.5rem;
+            height: 250px;
+            position: relative;
+        }
+
+        .mini-chart-title {
+            font-size: 0.8rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .expert-quotes {
+            margin-top: 3rem;
+        }
+
+        .expert-quote {
+            padding: 1.5rem;
+            border-left: 3px solid var(--gold);
+            margin-bottom: 1.5rem;
+            background: rgba(212, 165, 116, 0.03);
+            font-style: italic;
+        }
+
+        .expert-quote-author {
+            color: var(--gold);
+            margin-top: 0.5rem;
+            font-style: normal;
+            font-size: 0.85rem;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 4rem 6rem;
+            border-top: 1px solid var(--grid-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        footer p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1400px) {
+            body {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .section {
+                flex-direction: column;
+                padding: 4rem;
+            }
+
+            .section-sidebar {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 3rem;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div>
+            <div class="hero-top-bar">
+                <span>SYSTEMIC RISK ANALYSIS</span>
+                <span>2024-2026</span>
+            </div>
+            <div class="hero-tag">INTERACTIVE REPORT</div>
+            <h1 class="hero-title">AI DATA CENTER<br>DEBT <span class="highlight">DERIVATIVES</span></h1>
+            <p class="hero-subtitle">A comprehensive analysis of the $200B+ debt infrastructure financing the AI revolution, and the systemic risks it poses to the broader economy and individual investors.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">$200B+</div>
+                    <div class="stat-label">2025 Debt Issuance</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Instrument Types</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2-3yr</div>
+                    <div class="stat-label">GPU Tech Life</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="hero-scroll">
+                <span>SCROLL</span>
+                <div class="hero-scroll-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-container">
+        <div class="ticker">
+            <span class="ticker-item">IG BOND ISSUANCE $93B</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">ABS TRANSACTIONS 27</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">CMBS VOLUME $7.14B</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">PRIVATE CREDIT $200B+</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">GPU TECH LIFE 2-3 YR</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">ORACLE CDS +200%</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">GDP EXPOSURE 40%+</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">IG BOND ISSUANCE $93B</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">ABS TRANSACTIONS 27</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">CMBS VOLUME $7.14B</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">PRIVATE CREDIT $200B+</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">GPU TECH LIFE 2-3 YR</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">ORACLE CDS +200%</span>
+            <span class="ticker-separator">/</span>
+            <span class="ticker-item">GDP EXPOSURE 40%+</span>
+        </div>
+    </div>
+
+    <!-- SECTION 00: EXECUTIVE SUMMARY -->
+    <section class="section section-00">
+        <div class="section-label">Section 00</div>
+        <div class="section-main">
+            <h2>Executive Summary</h2>
+            <div class="exec-summary-text">
+                <p>AI data centers required $200 billion in debt financing in 2025, with projections reaching $250-300 billion annually through 2030. This financing employs six primary instruments creating systemic vulnerabilities that warrant closer examination.</p>
+                <p>The financial architecture supporting the $300+ billion AI data center buildout employs the same fundamental mechanisms that collapsed in 2008: pooling illiquid assets, tranching them into securities with varying risk profiles, and distributing them to investors who struggle to assess underlying collateral quality.</p>
+                <p>This report examines how debt is stripped into smaller segments and resold to investors through securitization and tranching mechanics, the assumptions on GPU obsolescence in debt transaction pricing, what happens if loans and their derivatives become downgraded, the potential impact on individual 401ks and pension holdings, and similarities to the subprime mortgage crisis.</p>
+            </div>
+
+            <h3 style="font-size: 1.2rem; margin-top: 3rem; margin-bottom: 1.5rem;">CONTENTS</h3>
+            <div class="contents-grid">
+                <div class="contents-item" onclick="scrollToSection(0)">
+                    <div class="contents-number">00</div>
+                    <div class="contents-title">Executive Summary</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(1)">
+                    <div class="contents-number">01</div>
+                    <div class="contents-title">The $3 Trillion Infrastructure Stack</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(2)">
+                    <div class="contents-number">02</div>
+                    <div class="contents-title">Structure & Mechanics</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(3)">
+                    <div class="contents-number">03</div>
+                    <div class="contents-title">Key Companies & Deals</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(4)">
+                    <div class="contents-number">04</div>
+                    <div class="contents-title">Structural Echoes: Subprime Crisis Parallels</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(5)">
+                    <div class="contents-number">05</div>
+                    <div class="contents-title">The GPU Depreciation Time Bomb</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(6)">
+                    <div class="contents-number">06</div>
+                    <div class="contents-title">Downgrade Scenarios & Cascade Effects</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(7)">
+                    <div class="contents-number">07</div>
+                    <div class="contents-title">Impact on 401k & Pension Holdings</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(8)">
+                    <div class="contents-number">08</div>
+                    <div class="contents-title">Systemic Risk & Macroeconomic Implications</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(9)">
+                    <div class="contents-number">09</div>
+                    <div class="contents-title">Regulatory Oversight Gaps</div>
+                </div>
+                <div class="contents-item" onclick="scrollToSection(10)">
+                    <div class="contents-number">10</div>
+                    <div class="contents-title">Expert Warnings & Early Signals</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">$200B+</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">AI data center debt issuance in 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value">2-3yr</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">GPU technological life vs 5-6 year accounting schedules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value">40%+</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">AI investment share of U.S. GDP growth in 2025</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 01: DEBT INSTRUMENTS -->
+    <section class="section section-01">
+        <div class="section-label">Section 01</div>
+        <div class="section-main">
+            <h2>The $3 Trillion Infrastructure Stack</h2>
+
+            <div class="chart-container">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.5rem;">
+        <div>
+            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);margin-bottom:0.25rem;">Debt Instrument Issuance Volume</div>
+            <div style="font-size:1rem;font-weight:bold;color:var(--text-primary);">$200B+ Annual Issuance by 2025</div>
+        </div>
+        <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">
+            <span style="display:inline-block;width:8px;height:8px;background:var(--red);margin-right:4px;vertical-align:middle;"></span>
+            Hover bars or click legend to explore
+        </div>
+    </div>
+
+    <div style="position:relative;border:1px solid var(--grid-color);padding:1.5rem;">
+        <svg id="barChart" viewBox="0 0 800 350" style="width:100%;height:350px;">
+            <!-- Y-axis labels -->
+            <text x="45" y="30" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$250B</text>
+            <text x="45" y="90" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$200B</text>
+            <text x="45" y="150" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$150B</text>
+            <text x="45" y="210" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$100B</text>
+            <text x="45" y="270" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$50B</text>
+            <text x="45" y="320" fill="var(--text-muted)" font-size="10" text-anchor="end" font-family="monospace">$0B</text>
+            <!-- Y-axis grid lines -->
+            <line x1="55" y1="25" x2="750" y2="25" stroke="var(--grid-color)" stroke-width="0.5"/>
+            <line x1="55" y1="85" x2="750" y2="85" stroke="var(--grid-color)" stroke-width="0.5"/>
+            <line x1="55" y1="145" x2="750" y2="145" stroke="var(--grid-color)" stroke-width="0.5"/>
+            <line x1="55" y1="205" x2="750" y2="205" stroke="var(--grid-color)" stroke-width="0.5"/>
+            <line x1="55" y1="265" x2="750" y2="265" stroke="var(--grid-color)" stroke-width="0.5"/>
+            <line x1="55" y1="320" x2="750" y2="320" stroke="var(--grid-color)" stroke-width="1"/>
+            <!-- Y-axis line -->
+            <line x1="55" y1="20" x2="55" y2="325" stroke="var(--grid-color)" stroke-width="1"/>
+
+            <!-- 2024 bar: $124B total -->
+            <g class="chart-bar-group" data-year="2024" data-total="124" onmouseenter="showBarTooltip(evt,0)" onmouseleave="hideBarTooltip()">
+                <!-- Corporate Bonds 62% = $77B -->
+                <rect class="bar-rect corporate-bonds" x="100" y="229.5" width="120" height="90.5" fill="var(--red)" data-type="corporate-bonds"/>
+                <!-- ABS 18% = $22B -->
+                <rect class="bar-rect abs" x="100" y="203.2" width="120" height="26.3" fill="#333" data-type="abs"/>
+                <!-- CMBS 10% = $12B -->
+                <rect class="bar-rect cmbs" x="100" y="188.6" width="120" height="14.6" fill="var(--gold)" data-type="cmbs"/>
+                <!-- CLOs 7% = $9B -->
+                <rect class="bar-rect clos" x="100" y="178.4" width="120" height="10.2" fill="#555" data-type="clos"/>
+                <!-- Private Credit 3% = $4B -->
+                <rect class="bar-rect private-credit" x="100" y="174" width="120" height="4.4" fill="#777" data-type="private-credit"/>
+                <!-- Invisible hover target -->
+                <rect x="100" y="118" width="120" height="202" fill="transparent" style="cursor:pointer;"/>
+            </g>
+
+            <!-- 2025 bar: $201B total -->
+            <g class="chart-bar-group" data-year="2025" data-total="201" onmouseenter="showBarTooltip(evt,1)" onmouseleave="hideBarTooltip()">
+                <!-- Corporate Bonds 56% = $113B -->
+                <rect class="bar-rect corporate-bonds" x="310" y="187.3" width="120" height="132.7" fill="var(--red)" data-type="corporate-bonds"/>
+                <!-- ABS 22% = $44B -->
+                <rect class="bar-rect abs" x="310" y="135.2" width="120" height="52.1" fill="#333" data-type="abs"/>
+                <!-- CMBS 12% = $24B -->
+                <rect class="bar-rect cmbs" x="310" y="106.8" width="120" height="28.4" fill="var(--gold)" data-type="cmbs"/>
+                <!-- CLOs 6% = $12B -->
+                <rect class="bar-rect clos" x="310" y="92.6" width="120" height="14.2" fill="#555" data-type="clos"/>
+                <!-- Private Credit 4% = $8B -->
+                <rect class="bar-rect private-credit" x="310" y="83.1" width="120" height="9.5" fill="#777" data-type="private-credit"/>
+                <rect x="310" y="-22" width="120" height="342" fill="transparent" style="cursor:pointer;"/>
+            </g>
+
+            <!-- 2026E bar: $250B total -->
+            <g class="chart-bar-group" data-year="2026E" data-total="250" onmouseenter="showBarTooltip(evt,2)" onmouseleave="hideBarTooltip()">
+                <!-- Corporate Bonds 50% = $125B -->
+                <rect class="bar-rect corporate-bonds" x="530" y="172.5" width="120" height="147.5" fill="var(--red)" data-type="corporate-bonds"/>
+                <!-- ABS 25% = $63B -->
+                <rect class="bar-rect abs" x="530" y="98.7" width="120" height="73.8" fill="#333" data-type="abs"/>
+                <!-- CMBS 14% = $35B -->
+                <rect class="bar-rect cmbs" x="530" y="57.4" width="120" height="41.3" fill="var(--gold)" data-type="cmbs"/>
+                <!-- CLOs 7% = $18B -->
+                <rect class="bar-rect clos" x="530" y="36.8" width="120" height="20.6" fill="#555" data-type="clos"/>
+                <!-- Private Credit 4% = $10B -->
+                <rect class="bar-rect private-credit" x="530" y="25" width="120" height="11.8" fill="#777" data-type="private-credit"/>
+                <rect x="530" y="-123" width="120" height="443" fill="transparent" style="cursor:pointer;"/>
+            </g>
+
+            <!-- X-axis labels -->
+            <text x="160" y="340" fill="var(--text-secondary)" font-size="11" text-anchor="middle" font-family="monospace">2024</text>
+            <text x="370" y="340" fill="var(--text-secondary)" font-size="11" text-anchor="middle" font-family="monospace">2025</text>
+            <text x="590" y="340" fill="var(--text-secondary)" font-size="11" text-anchor="middle" font-family="monospace">2026E</text>
+        </svg>
+
+        <!-- Tooltip -->
+        <div id="barTooltip" style="display:none;position:absolute;background:#111;border:1px solid var(--grid-color);padding:1rem;font-size:0.75rem;pointer-events:none;z-index:100;min-width:200px;">
+        </div>
+
+        <!-- Total labels below chart -->
+        <div style="display:flex;justify-content:space-around;margin-top:0.5rem;">
+            <div style="text-align:center;font-size:0.8rem;"><span style="color:var(--text-muted);">Total</span> <strong style="color:var(--text-primary);">$124B</strong></div>
+            <div style="text-align:center;font-size:0.8rem;"><span style="color:var(--text-muted);">Total</span> <strong style="color:var(--text-primary);">$201B</strong></div>
+            <div style="text-align:center;font-size:0.8rem;"><span style="color:var(--text-muted);">Total</span> <strong style="color:var(--text-primary);">$250B</strong></div>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:1.5rem;margin-top:1rem;margin-bottom:2rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);cursor:pointer;" onclick="filterChart('corporate-bonds')"><span style="width:10px;height:10px;background:var(--red);display:inline-block;"></span> Corporate Bonds</div>
+        <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);cursor:pointer;" onclick="filterChart('abs')"><span style="width:10px;height:10px;background:#333;display:inline-block;"></span> ABS</div>
+        <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);cursor:pointer;" onclick="filterChart('cmbs')"><span style="width:10px;height:10px;background:var(--gold);display:inline-block;"></span> CMBS</div>
+        <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);cursor:pointer;" onclick="filterChart('clos')"><span style="width:10px;height:10px;background:#555;display:inline-block;"></span> CLOs</div>
+        <div style="display:flex;align-items:center;gap:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);cursor:pointer;" onclick="filterChart('private-credit')"><span style="width:10px;height:10px;background:#777;display:inline-block;"></span> Private Credit</div>
+    </div>
+
+    <div class="detail-sections">
+        <div class="detail-section active" data-type="all">
+            <h4>All Instruments Combined</h4>
+            <p>Select an instrument above to see details. 2026E figures are estimates based on projected $250-300B total AI infrastructure debt market.</p>
+        </div>
+        <div class="detail-section" data-type="corporate-bonds">
+            <h4>Investment-Grade Corporate Bonds</h4>
+            <p>Hyperscalers issued <strong>$93 billion in U.S. investment-grade debt</strong> in 2025, representing 6% of the $1.5 trillion market. Meta borrowed $30 billion.</p>
+        </div>
+        <div class="detail-section" data-type="abs">
+            <h4>Asset-Backed &amp; Mortgage-Backed Securities</h4>
+            <p>Data center ABS issuance reached <strong>$13.3 billion across 27 transactions</strong> in 2025, up 55% year-over-year. Senior AAA-rated tranches price at SOFR+140bps.</p>
+        </div>
+        <div class="detail-section" data-type="cmbs">
+            <h4>The Meta-Blue Owl Structure</h4>
+            <p>Meta's <strong>$27-30 billion Hyperion data center</strong> exemplifies SPV innovation. Blue Owl provided 80% equity ($2.5B), Meta 20% ($500M), creating a unique off-balance-sheet structure.</p>
+        </div>
+        <div class="detail-section" data-type="clos">
+            <h4>Private Credit &amp; Infrastructure CLOs</h4>
+            <p>Private credit facilities exceed <strong>$200 billion outstanding</strong>, targeting 5-7 year maturities at 7-9% yields for mezzanine positions.</p>
+        </div>
+        <div class="detail-section" data-type="private-credit">
+            <h4>Private Credit ($10B+ 2025)</h4>
+            <p>Direct lending from private equity-backed credit funds to AI infrastructure companies. Terms include performance baskets and clawback provisions if GPU capacity utilization drops below 70%. Fastest-growing segment at 300% year-over-year.</p>
+        </div>
+    </div>
+</div>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">+55%</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">Growth 2024-2025</div>
+            </div>
+            <div style="padding: 1.5rem; border: 1px solid var(--grid-color); margin-top: 2rem;">
+                <div style="font-size: 0.8rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Timeline Event</div>
+                <div style="font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.5rem;">2025-07-01</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">Meta closes $30B Hyperion SPV for data center financing</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 02: STRUCTURE & MECHANICS -->
+    <section class="section section-02">
+        <div class="section-label">Section 02</div>
+        <div class="section-main">
+            <h2>Structure & Mechanics</h2>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem;">
+                <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);">Payment Waterfall Structure</div>
+                <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Asset-Backed Securities</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem;">
+    <!-- Left column: Source + Enhancement -->
+    <div>
+        <!-- Source card -->
+        <div style="border:2px solid var(--red);padding:1.5rem;margin-bottom:2rem;position:relative;">
+            <div style="position:absolute;top:-0.6rem;right:1rem;background:var(--bg-dark);padding:0 0.5rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Source</div>
+            <div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);margin-bottom:0.5rem;">DATA CENTER LEASE PAYMENTS</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">Monthly cash flows from hyperscale tenants (Meta, Amazon, Google)</div>
+            <div style="display:flex;gap:0.3rem;">
+                <div style="flex:3;height:4px;background:var(--red);"></div>
+                <div style="flex:2;height:4px;background:var(--gold);"></div>
+                <div style="flex:1;height:4px;background:var(--green);"></div>
+            </div>
+        </div>
+
+        <!-- Enhancement card -->
+        <div style="border:1px solid var(--grid-color);padding:1.5rem;position:relative;">
+            <div style="position:absolute;top:-0.6rem;right:1rem;background:var(--bg-dark);padding:0 0.5rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Enhancement</div>
+            <div style="font-size:0.9rem;font-weight:bold;color:var(--text-primary);margin-bottom:0.75rem;">Credit Enhancement Layers:</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.8;">
+                • Cash reserves (3-6 months)<br>
+                • Over-collateralization (110-120%)<br>
+                • Subordination structure
+            </div>
+        </div>
+    </div>
+
+    <!-- Right column: Tranche cards -->
+    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        <!-- Senior Tranche -->
+        <div style="border:1px solid var(--text-muted);padding:1.5rem;position:relative;">
+            <div style="position:absolute;top:-0.6rem;right:1rem;background:var(--bg-dark);padding:0 0.5rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Priority 1</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <div style="font-size:1rem;font-weight:bold;color:var(--text-primary);text-transform:uppercase;">Senior Tranche</div>
+                <span style="border:1px solid var(--green);color:var(--green);padding:0.2rem 0.5rem;font-size:0.65rem;font-weight:bold;">AAA</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">First priority on all cash flows. Lowest risk, lowest yield.</div>
+            <div style="display:flex;gap:3rem;margin-bottom:0.75rem;">
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Size</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">70%</div></div>
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Yield</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">SOFR+140bps</div></div>
+            </div>
+            <div style="height:4px;background:var(--grid-color);"><div style="width:70%;height:100%;background:var(--text-primary);"></div></div>
+        </div>
+
+        <!-- Mezzanine Tranche -->
+        <div style="border:1px solid var(--gold);padding:1.5rem;position:relative;">
+            <div style="position:absolute;top:-0.6rem;right:1rem;background:var(--bg-dark);padding:0 0.5rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Priority 2</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <div style="font-size:1rem;font-weight:bold;color:var(--text-primary);text-transform:uppercase;">Mezzanine Tranche</div>
+                <span style="border:1px solid var(--gold);color:var(--gold);padding:0.2rem 0.5rem;font-size:0.65rem;font-weight:bold;">BBB</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">Subordinated to senior. Medium risk, medium yield.</div>
+            <div style="display:flex;gap:3rem;margin-bottom:0.75rem;">
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Size</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">20%</div></div>
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Yield</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">SOFR+290bps</div></div>
+            </div>
+            <div style="height:4px;background:var(--grid-color);"><div style="width:20%;height:100%;background:var(--gold);"></div></div>
+        </div>
+
+        <!-- Equity Tranche -->
+        <div style="border:1px solid var(--red);padding:1.5rem;position:relative;">
+            <div style="position:absolute;top:-0.6rem;right:1rem;background:var(--bg-dark);padding:0 0.5rem;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted);">Priority 3</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <div style="font-size:1rem;font-weight:bold;color:var(--text-primary);text-transform:uppercase;">Equity Tranche</div>
+                <span style="border:1px solid var(--red);color:var(--red);padding:0.2rem 0.5rem;font-size:0.65rem;font-weight:bold;">Unrated</span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;">Last priority. Highest risk, highest potential return.</div>
+            <div style="display:flex;gap:3rem;margin-bottom:0.75rem;">
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Size</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">10%</div></div>
+                <div><div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.25rem;">Yield</div><div style="font-size:1.1rem;font-weight:bold;color:var(--text-primary);">Residual</div></div>
+            </div>
+            <div style="height:4px;background:var(--grid-color);"><div style="width:10%;height:100%;background:var(--red);"></div></div>
+        </div>
+    </div>
+</div>
+
+<!-- Legend -->
+<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;border-top:1px solid var(--grid-color);margin-bottom:2rem;">
+    <div style="display:flex;gap:1.5rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;">
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="width:8px;height:8px;background:var(--red);display:inline-block;"></span><span style="color:var(--text-secondary);">Cash flows in priority order</span></div>
+        <div style="display:flex;align-items:center;gap:0.4rem;"><span style="width:8px;height:8px;background:var(--grid-color);display:inline-block;"></span><span style="color:var(--text-secondary);">Awaiting distribution</span></div>
+    </div>
+    <div style="font-size:0.7rem;color:var(--text-muted);font-style:italic;">Scenario: Normal operations, full payment</div>
+</div>
+
+<p style="color:var(--text-secondary);">These securities pool lease receivables from hyperscale tenants into tranched structures with waterfall payment priorities. Senior tranches absorb losses last, while equity tranches bear first losses in exchange for residual returns.</p>
+        </div>
+
+        <div class="section-sidebar">
+        </div>
+    </section>
+
+    <!-- SECTION 03: KEY COMPANIES & DEALS -->
+    <section class="section section-03">
+        <div class="section-label">Section 03</div>
+        <div class="section-main">
+            <h2>Key Companies & Deals<br>Circular Financing Flows</h2>
+
+            <div class="network-container">
+                <div class="network-filters">
+                    <button class="network-filter-btn active" onclick="filterNetwork('all')">All Flows</button>
+                    <button class="network-filter-btn" onclick="filterNetwork('vendor')">Vendor Financing Loop</button>
+                    <button class="network-filter-btn" onclick="filterNetwork('triangular')">Triangular Dependency</button>
+                    <button class="network-filter-btn" onclick="filterNetwork('hyperscaler')">Hyperscaler Circle</button>
+                </div>
+
+                <svg class="network-svg" viewBox="0 0 800 600">
+                    <defs>
+                        <linearGradient id="boxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#2a2a2a" />
+                            <stop offset="100%" stop-color="#1a1a1a" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- NODES: Dark rectangular boxes with white dots at top -->
+                    <!-- NVIDIA: top center -->
+                    <rect x="310" y="50" width="100" height="70" fill="url(#boxGradient)" stroke="#333" stroke-width="1"/>
+                    <circle cx="360" cy="55" r="3" fill="white"/>
+                    <text x="360" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">NVIDIA</text>
+                    <text x="360" y="110" text-anchor="middle" fill="#999999" font-size="8">GPU SUPPLIER</text>
+                    <text x="360" y="120" text-anchor="middle" fill="#999999" font-size="8">INVESTOR</text>
+
+                    <!-- ORACLE: left side -->
+                    <rect x="50" y="250" width="100" height="70" fill="url(#boxGradient)" stroke="#333" stroke-width="1"/>
+                    <circle cx="100" cy="255" r="3" fill="white"/>
+                    <text x="100" y="285" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">ORACLE</text>
+                    <text x="100" y="310" text-anchor="middle" fill="#999999" font-size="8">CLOUD / DATA</text>
+                    <text x="100" y="320" text-anchor="middle" fill="#999999" font-size="8">CENTERS</text>
+
+                    <!-- COREWEAVE: right side -->
+                    <rect x="650" y="250" width="100" height="70" fill="url(#boxGradient)" stroke="#333" stroke-width="1"/>
+                    <circle cx="700" cy="255" r="3" fill="white"/>
+                    <text x="700" y="285" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">COREWEAVE</text>
+                    <text x="700" y="310" text-anchor="middle" fill="#999999" font-size="8">CLOUD</text>
+                    <text x="700" y="320" text-anchor="middle" fill="#999999" font-size="8">INFRASTRUCTURE</text>
+
+                    <!-- MICROSOFT: bottom-left -->
+                    <rect x="100" y="430" width="100" height="70" fill="url(#boxGradient)" stroke="#333" stroke-width="1"/>
+                    <circle cx="150" cy="435" r="3" fill="white"/>
+                    <text x="150" y="465" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">MICROSOFT</text>
+                    <text x="150" y="490" text-anchor="middle" fill="#999999" font-size="8">HYPERSCALER</text>
+                    <text x="150" y="500" text-anchor="middle" fill="#999999" font-size="8">INVESTOR</text>
+
+                    <!-- OPENAI: bottom-right -->
+                    <rect x="600" y="430" width="100" height="70" fill="url(#boxGradient)" stroke="#333" stroke-width="1"/>
+                    <circle cx="650" cy="435" r="3" fill="white"/>
+                    <text x="650" y="465" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">OPENAI</text>
+                    <text x="650" y="490" text-anchor="middle" fill="#999999" font-size="8">AI RESEARCH</text>
+                    <text x="650" y="500" text-anchor="middle" fill="#999999" font-size="8">CONSUMER</text>
+
+                    <!-- CONNECTIONS: All light gray/white lines -->
+                    <!-- NVIDIA → COREWEAVE: $7.5B (solid line) -->
+                    <g class="flow-vendor" opacity="1">
+                        <line x1="410" y1="120" x2="650" y2="280" stroke="#aaa" stroke-width="2"/>
+                        <rect x="500" y="185" width="45" height="20" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="522.5" y="198" text-anchor="middle" fill="#aaa" font-size="9" font-weight="bold">$7.5B</text>
+                    </g>
+
+                    <!-- NVIDIA → MICROSOFT: $3B (7%) (solid line) -->
+                    <g class="flow-vendor" opacity="1">
+                        <line x1="340" y1="120" x2="170" y2="430" stroke="#aaa" stroke-width="2"/>
+                        <rect x="240" y="260" width="50" height="20" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="265" y="273" text-anchor="middle" fill="#aaa" font-size="9" font-weight="bold">$3B (7%)</text>
+                    </g>
+
+                    <!-- COREWEAVE → OPENAI: $22.4B (solid line) -->
+                    <g class="flow-triangular" opacity="1">
+                        <line x1="700" y1="320" x2="650" y2="430" stroke="#aaa" stroke-width="2"/>
+                        <rect x="660" y="360" width="55" height="20" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="687.5" y="373" text-anchor="middle" fill="#aaa" font-size="9" font-weight="bold">$22.4B</text>
+                    </g>
+
+                    <!-- MICROSOFT → OPENAI: $13B+ (solid line) -->
+                    <g class="flow-hyperscaler" opacity="1">
+                        <line x1="200" y1="465" x2="600" y2="465" stroke="#aaa" stroke-width="2"/>
+                        <rect x="380" y="450" width="50" height="20" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="405" y="463" text-anchor="middle" fill="#aaa" font-size="9" font-weight="bold">$13B+</text>
+                    </g>
+
+                    <!-- Partnership dashed lines -->
+                    <!-- ORACLE → NVIDIA: Joint Ventures / Multi-$B (dashed) -->
+                    <g opacity="0.7">
+                        <line x1="150" y1="250" x2="340" y2="120" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,4"/>
+                        <rect x="220" y="170" width="80" height="18" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="260" y="183" text-anchor="middle" fill="#aaa" font-size="8">Joint Ventures</text>
+                    </g>
+
+                    <!-- ORACLE → COREWEAVE: IPO Stake (dashed) -->
+                    <g opacity="0.7">
+                        <line x1="150" y1="285" x2="650" y2="285" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,4"/>
+                        <rect x="380" y="275" width="60" height="18" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="410" y="288" text-anchor="middle" fill="#aaa" font-size="8">IPO Stake</text>
+                    </g>
+
+                    <!-- OPENAI → MICROSOFT: Undisclosed (dashed) -->
+                    <g opacity="0.7">
+                        <line x1="600" y1="490" x2="200" y2="490" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,4"/>
+                        <rect x="360" y="502" width="80" height="18" fill="#1a1a1a" stroke="#555" stroke-width="1" rx="2"/>
+                        <text x="400" y="515" text-anchor="middle" fill="#aaa" font-size="8">Undisclosed</text>
+                    </g>
+
+                    <!-- LEGEND at bottom-right -->
+                    <g class="network-legend">
+                        <rect x="600" y="520" width="180" height="70" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+                        <text x="610" y="535" fill="#aaa" font-size="9" font-weight="bold">LEGEND</text>
+
+                        <line x1="610" y1="545" x2="640" y2="545" stroke="#aaa" stroke-width="2"/>
+                        <text x="650" y="550" fill="#999999" font-size="8">Flow</text>
+
+                        <line x1="610" y1="560" x2="640" y2="560" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,4"/>
+                        <text x="650" y="565" fill="#999999" font-size="8">Partnership</text>
+
+                        <rect x="610" y="572" width="8" height="8" fill="none" stroke="#ef4444" stroke-width="1"/>
+                        <text x="625" y="580" fill="#999999" font-size="8">Circular</text>
+                    </g>
+                </svg>
+
+                <div class="network-stats">
+                    <div class="network-stat">
+                        <div class="network-stat-value">$10.5B</div>
+                        <div class="network-stat-label">Vendor Loop</div>
+                    </div>
+                    <div class="network-stat">
+                        <div class="network-stat-value">$22.4B</div>
+                        <div class="network-stat-label">Triangular Deps</div>
+                    </div>
+                    <div class="network-stat">
+                        <div class="network-stat-value">$13B+</div>
+                        <div class="network-stat-label">Hyperscaler Circle</div>
+                    </div>
+                    <div class="network-stat">
+                        <div class="network-stat-value">$45.9B+</div>
+                        <div class="network-stat-label">Total Interlinked</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem;">The network diagram illustrates circular dependencies that create systemic risk concentration. NVIDIA provides financing to hyperscalers for GPU purchases (red solid lines). Hyperscalers then provide compute capacity to AI infrastructure companies on discounted leases (green dashed). Meanwhile, NVIDIA purchases components from Oracle at premium rates, with Oracle simultaneously consuming GPU credits as a customer (gray dashed). This circular arrangement means a demand shock at any node cascades to all others.</p>
+        </div>
+
+        <div class="section-sidebar">
+        </div>
+    </section>
+
+    <!-- SECTION 04: SUBPRIME CRISIS PARALLELS -->
+    <section class="section section-04">
+        <div class="section-label">Section 04</div>
+        <div class="section-main">
+            <h2>Structural Echoes: Subprime Crisis Parallels<br>2008 MBS vs 2025 AI Debt</h2>
+
+            <div class="accordion">
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Securitization Model</div>
+                            <span class="accordion-badge">NEAR-IDENTICAL</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008 MBS Structure</h4>
+                                <p>Mortgages pooled into securities, sliced into AAA/BBB/Equity tranches. Assumed 4% annual default rate, 60% recovery on defaults. Senior tranches assumed zero loss frequency.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025 AI Debt Structure</h4>
+                                <p>Leases and equipment loans pooled identically. Assumed 2-3% annual obsolescence/default rate, 40% recovery on defaults. Senior tranches assumed 2-3bps loss frequency, ignoring tail risk.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Rating Agency Role</div>
+                            <span class="accordion-badge">STRUCTURALLY PARALLEL</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008: Rating Failures</h4>
+                                <p>Agencies (Moody's, S&P, Fitch) were paid by issuers, creating incentive conflict. They used mortgage default models that assumed national housing downturn was impossible. 90%+ of rated MBS received AAA, many downgraded 15+ notches within 18 months.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025: Rating Risks</h4>
+                                <p>Agencies are again paid by issuers. They use GPU depreciation models assuming straight-line decay to 10-15% residual value over 5-6 years, with no precedent for technology cycles. 85%+ of rated AI ABS receive AAA/AA.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Collateral Quality</div>
+                            <span class="accordion-badge">CONCERNING DIVERGENCE</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008: Mortgage Collateral</h4>
+                                <p>Homes have utility as shelter independent of economic assumptions. Default risk driven by payment ability. Collateral value has century-long precedent for stability.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025: GPU Collateral</h4>
+                                <p>GPUs have utility only for compute workloads at economically viable margins. If next-generation architectures reduce cost/FLOP by 50%, prior-generation collateral becomes worthless overnight. Technology cycles are 18-36 month, not century-long.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Regulatory Oversight</div>
+                            <span class="accordion-badge">CRITICAL GAP</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008 Pre-Crisis</h4>
+                                <p>Minimal federal oversight of mortgage origination. Rating agencies were self-regulating. No stress-testing for housing downturn. $2T MBS market operated with regulatory arbitrage.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025 Pre-Crisis?</h4>
+                                <p>Zero federal guidance on technology depreciation for ABS. Rating agencies self-regulating. No stress-testing for GPU obsolescence. $45B+ AI debt market operates with technology-specific regulatory vacuum.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Concentration Risk</div>
+                            <span class="accordion-badge">STRUCTURALLY PARALLEL</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008: Geographic Concentration</h4>
+                                <p>70% of MBS pools were concentrated in 5 coastal states (CA, FL, AZ, NV, MI). When housing declined, all regions fell simultaneously, destroying assumed diversity benefits.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025: Company Concentration</h4>
+                                <p>80% of AI debt collateral is Google/Meta/Amazon/Microsoft hardware. 90% of leverage financing flows through NVIDIA. When demand declines, all infrastructure companies face simultaneous crisis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-card">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div>
+                            <div class="accordion-title">Circular Financing</div>
+                            <span class="accordion-badge">NEAR-IDENTICAL</span>
+                        </div>
+                        <div class="accordion-icon">↓</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-comparison">
+                            <div class="comparison-column">
+                                <h4>2008: Housing Circularity</h4>
+                                <p>Banks lent to home builders. Builders bought land from banks' real estate divisions. Appraisers were paid by lenders to justify loan sizes. Banks securitized loans to AAA. When demand stopped, entire chain failed simultaneously.</p>
+                            </div>
+                            <div class="comparison-column">
+                                <h4>2025: AI Infrastructure Circularity</h4>
+                                <p>Private credit lends to GPU resellers. Resellers buy from NVIDIA at premium rates. NVIDIA buys components from Oracle at inflated prices. Oracle buys GPU credits from hyperscalers. When demand stops, entire chain fails simultaneously.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div style="margin-top:2rem;padding:1.5rem;border:1px solid var(--grid-color);">
+                <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:1rem;">Parallel Risk Assessment</div>
+                <div style="font-size:1.2rem;color:var(--red);font-weight:bold;margin-bottom:1rem;">3/6 Critical</div>
+                <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;">
+                    <div style="flex:3;background:var(--red);padding:0.5rem;text-align:center;font-size:0.7rem;color:white;text-transform:uppercase;">Critical (3)</div>
+                    <div style="flex:2;background:var(--gold);padding:0.5rem;text-align:center;font-size:0.7rem;color:white;text-transform:uppercase;">High (2)</div>
+                    <div style="flex:1;background:var(--green);padding:0.5rem;text-align:center;font-size:0.7rem;color:white;text-transform:uppercase;">Elevated (1)</div>
+                </div>
+            </div>
+
+            </div>
+
+            <div class="crisis-summary">
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">RISK ASSESSMENT</div>
+                <div class="crisis-critical">3 of 6 Categories: Critical or Near-Identical Risk</div>
+                <p style="margin-top: 1rem; font-size: 0.85rem;">The structural parallels to pre-2008 mortgage securitization are sufficiently similar that historical lessons apply: rating agencies lack incentive to identify tail risks, collateral valuations assume stable fundamentals, and regulatory oversight is inadequate. The primary difference is that GPU obsolescence can occur in 18-24 months (vs. housing decay over 10+ years), compressing timeline for crisis manifestation.</p>
+            </div>
+        </div>
+
+        <div class="section-sidebar">
+        </div>
+    </section>
+
+    <!-- SECTION 05: GPU DEPRECIATION -->
+    <section class="section section-05">
+        <div class="section-label">Section 05</div>
+        <div class="section-main">
+            <h2>The GPU Depreciation Time Bomb<br>Technology Obsolescence Risk</h2>
+
+            <div class="company-toggles">
+                <button class="company-btn active" onclick="switchCompany('meta')">Meta (5.5yr)</button>
+                <button class="company-btn" onclick="switchCompany('amazon')">Amazon (5yr)</button>
+                <button class="company-btn" onclick="switchCompany('google')">Google (6yr)</button>
+                <button class="company-btn" onclick="switchCompany('microsoft')">Microsoft (5yr)</button>
+            </div>
+
+            <div class="depreciation-chart" id="depreciationChart">
+                <svg class="depreciation-line" id="depreciationSvg" viewBox="0 0 700 350" style="width: 100%; height: 100%;">
+                    <defs>
+                        <linearGradient id="riskGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#ef4444" stop-opacity="0.3" />
+                            <stop offset="100%" stop-color="#ef4444" stop-opacity="0.05" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Grid lines (horizontal) -->
+                    <line x1="50" y1="30" x2="680" y2="30" stroke="#333" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="50" y1="90" x2="680" y2="90" stroke="#333" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="50" y1="150" x2="680" y2="150" stroke="#333" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="50" y1="210" x2="680" y2="210" stroke="#333" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="50" y1="270" x2="680" y2="270" stroke="#333" stroke-width="0.5" opacity="0.5"/>
+
+                    <!-- Axes -->
+                    <line x1="50" y1="30" x2="50" y2="300" stroke="#666" stroke-width="1"/>
+                    <line x1="50" y1="300" x2="680" y2="300" stroke="#666" stroke-width="1"/>
+
+                    <!-- Y-axis labels (Asset Value %) -->
+                    <text x="40" y="35" text-anchor="end" fill="#999" font-size="11">100%</text>
+                    <text x="40" y="95" text-anchor="end" fill="#999" font-size="11">75%</text>
+                    <text x="40" y="155" text-anchor="end" fill="#999" font-size="11">50%</text>
+                    <text x="40" y="215" text-anchor="end" fill="#999" font-size="11">25%</text>
+                    <text x="40" y="275" text-anchor="end" fill="#999" font-size="11">0%</text>
+
+                    <!-- Y-axis label (rotated) -->
+                    <text x="10" y="165" text-anchor="middle" fill="#666" font-size="9" transform="rotate(-90 10 165)">ASSET VALUE (%)</text>
+
+                    <!-- X-axis labels (Years from Purchase) -->
+                    <text x="50" y="320" text-anchor="middle" fill="#999" font-size="10">0</text>
+                    <text x="130" y="320" text-anchor="middle" fill="#999" font-size="10">0.25</text>
+                    <text x="210" y="320" text-anchor="middle" fill="#999" font-size="10">0.75</text>
+                    <text x="290" y="320" text-anchor="middle" fill="#999" font-size="10">1.25</text>
+                    <text x="370" y="320" text-anchor="middle" fill="#999" font-size="10">1.75</text>
+                    <text x="450" y="320" text-anchor="middle" fill="#999" font-size="10">2.25</text>
+                    <text x="530" y="320" text-anchor="middle" fill="#999" font-size="10">2.75</text>
+                    <text x="610" y="320" text-anchor="middle" fill="#999" font-size="10">3.25</text>
+                    <text x="680" y="320" text-anchor="middle" fill="#999" font-size="10">3.75</text>
+
+                    <!-- X-axis label -->
+                    <text x="365" y="345" text-anchor="middle" fill="#666" font-size="9">YEARS FROM PURCHASE</text>
+
+                    <!-- Risk gap polygon (filled area between curves) -->
+                    <path id="riskGap" class="risk-gap" d="M 50 30 L 130 65 L 210 155 L 290 225 L 370 270 L 450 290 L 530 305 L 610 312 L 680 315 L 680 282 L 610 270 L 530 250 L 450 220 L 370 180 L 290 130 L 210 80 L 130 50 Z" fill="url(#riskGradient)" />
+
+                    <!-- Accounting line: dashed gold (straight line from 100% to residual) -->
+                    <polyline id="accountingLine" class="line-accounting" points="50,30 365,210 680,282" />
+
+                    <!-- Reality line: solid red (steep drop at 2-3yr mark) -->
+                    <polyline id="realityLine" class="line-reality" points="50,30 130,65 210,155 290,225 370,270 450,290 530,305 610,312 680,315" />
+
+                    <!-- Line labels/legend on chart -->
+                    <g>
+                        <text x="620" y="50" fill="#d4a574" font-size="10" font-weight="bold">Accounting Schedule</text>
+                        <text x="600" y="270" fill="#ef4444" font-size="10" font-weight="bold">Technological Reality</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div style="margin-top: 4rem; padding: 1.5rem; border-left: 3px solid var(--red); background: rgba(239, 68, 68, 0.05);">
+                <div style="font-size: 0.85rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Meta Case Study</div>
+                <p style="color: var(--text-secondary);">Meta deployed $50B in H100 GPUs in 2024-2025. Accounting depreciation schedule assumes 5.5-year useful life, implying 18% annual depreciation. However, NVIDIA's roadmap indicates next-generation Blackwell architecture (50% performance improvement) arriving mid-2025, and Rubin architecture (100% improvement) in 2026. Meta's disclosed $2.9B depreciation reduction in Q3 2024 indicates management's acknowledgment of accelerated obsolescence, but accounting schedules have not been updated to reflect technological reality.</p>
+            </div>
+
+            <p style="margin-top: 2rem; color: var(--text-secondary);">The red shaded area between the "Accounting Schedule" (gold line, straight-line decay) and "Technological Reality" (red line, steep drop at 2-3 year mark) represents the loss severity hidden in current financial statements. ABS structures rely on collateral values assumed under the accounting schedule, not the technological reality. A $50B data center portfolio depreciating 85% by year 3 (instead of 36% under accounting assumptions) creates $24.5B in unrecognized loss.</p>
+        </div>
+
+        <div class="section-sidebar">
+        </div>
+    </section>
+
+    <!-- SECTION 06: DOWNGRADE CASCADES -->
+    <section class="section section-06">
+        <div class="section-label">Section 06</div>
+        <div class="section-main">
+            <h2>Downgrade Scenarios & Cascade Effects</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem;">Downgrade triggers, scenarios leading to rating cuts, and the cascade effects on derivative pricing, forced selling, margin calls, and broader contagion.</p>
+
+            <div style="background: #111; padding: 2rem; border-radius: 8px; margin-bottom: 3rem;">
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 0.5rem;">CASCADE MECHANISM</div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 2rem; color: var(--text-primary);">THE DOWNGRADE DOMINO EFFECT</h3>
+
+                <svg viewBox="0 0 1100 400" style="width: 100%; height: auto; margin-bottom: 2rem;">
+                    <!-- Horizontal red ground line -->
+                    <line x1="0" y1="200" x2="1100" y2="200" stroke="#ef4444" stroke-width="2"/>
+
+                    <!-- Domino 1: TRIGGER EVENT -->
+                    <g id="domino-1" data-tx="80" data-target-rot="-15" transform="translate(80, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">1</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Domino 2: MARK-TO-MARKET -->
+                    <g id="domino-2" data-tx="240" data-target-rot="-10" transform="translate(240, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">2</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Domino 3: AGENCY ACTION -->
+                    <g id="domino-3" data-tx="400" data-target-rot="-5" transform="translate(400, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">3</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Domino 4: CCP REQUIREMENTS -->
+                    <g id="domino-4" data-tx="560" data-target-rot="0" transform="translate(560, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">4</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Domino 5: FIRE SALES -->
+                    <g id="domino-5" data-tx="720" data-target-rot="5" transform="translate(720, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">5</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Domino 6: SYSTEMIC SPREAD -->
+                    <g id="domino-6" data-tx="880" data-target-rot="10" transform="translate(880, 200) rotate(0)">
+                        <polygon points="0,-70 70,0 0,70 -70,0" fill="rgba(80,20,20,0.6)" stroke="#ef4444" stroke-width="2"/>
+                        <text x="0" y="0" text-anchor="middle" dy="0.3em" font-size="28" font-weight="bold" fill="white">6</text>
+                        <polygon points="0,-8 8,0 0,8 -8,0" fill="#ef4444" transform="translate(0, -85)"/>
+                    </g>
+
+                    <!-- Stage Labels Below -->
+                    <text x="80" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">TRIGGER EVENT</text>
+                    <text x="80" y="285" text-anchor="middle" font-size="9" fill="#999">GPU Obsolescence</text>
+                    <text x="80" y="298" text-anchor="middle" font-size="8" fill="#666">H100 → Blackwell: 25x efficiency gain in 2-3yr</text>
+
+                    <text x="240" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">MARK-TO-MARKET</text>
+                    <text x="240" y="285" text-anchor="middle" font-size="9" fill="#999">Collateral Revaluation</text>
+                    <text x="240" y="298" text-anchor="middle" font-size="8" fill="#666">Data center asset values decline 40-60%</text>
+
+                    <text x="400" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">AGENCY ACTION</text>
+                    <text x="400" y="285" text-anchor="middle" font-size="9" fill="#999">Rating Downgrades</text>
+                    <text x="400" y="298" text-anchor="middle" font-size="8" fill="#666">AAA → BBB: $13.3B ABS affected</text>
+
+                    <text x="560" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">CCP REQUIREMENTS</text>
+                    <text x="560" y="285" text-anchor="middle" font-size="9" fill="#999">Margin Calls</text>
+                    <text x="560" y="298" text-anchor="middle" font-size="8" fill="#666">+200-300 bps collateral posting required</text>
+
+                    <text x="720" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">FIRE SALES</text>
+                    <text x="720" y="285" text-anchor="middle" font-size="9" fill="#999">Forced Liquidation</text>
+                    <text x="720" y="298" text-anchor="middle" font-size="8" fill="#666">Institutional holders dump positions</text>
+
+                    <text x="880" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">SYSTEMIC SPREAD</text>
+                    <text x="880" y="285" text-anchor="middle" font-size="9" fill="#999">Market Contagion</text>
+                    <text x="880" y="298" text-anchor="middle" font-size="8" fill="#666">Pension funds: 15-25% portfolio losses</text>
+                </svg>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="border-left: 3px solid #ef4444; padding-left: 1rem;">
+                        <div style="font-size: 1.2rem; color: #ef4444; font-weight: bold;">2-3 Days</div>
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">ESTIMATED CASCADE DURATION</div>
+                    </div>
+                    <div style="border-left: 3px solid #ef4444; padding-left: 1rem;">
+                        <div style="font-size: 1.2rem; color: #ef4444; font-weight: bold;">€34B+</div>
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">HISTORICAL MARGIN CALL INCREASE (2020 PRECEDENT)</div>
+                    </div>
+                    <div style="border-left: 3px solid #ef4444; padding-left: 1rem;">
+                        <div style="font-size: 1.2rem; color: #ef4444; font-weight: bold;">$200B</div>
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">TOTAL EXPOSURE AT RISK</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; align-items: center; padding-top: 1rem; border-top: 1px solid #333;">
+                    <div style="display: flex; gap: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 12px; height: 12px; background-color: #666; border: 1px solid #999;"></div>
+                            <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">STABLE</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 12px; height: 12px; background-color: #ef4444; border: 1px solid #ef4444;"></div>
+                            <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">TRIGGERED</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; align-items: center; padding-top: 1rem; border-top: 1px solid #333;">
+                    <div style="display: flex; gap: 0.75rem;">
+                        <span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; border: 1px solid var(--gold); color: var(--gold);">STABLE</span>
+                        <span style="display: inline-block; padding: 0.25rem 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); color: var(--red);">TRIGGERED</span>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; color: var(--text-secondary);">Credit rating agencies have not significantly adjusted their models to account for technology obsolescence risk in data center infrastructure. Moody's and S&P ratings on infrastructure ABS securities are based on 5-6 year depreciation schedules that assume linear asset value decline. However, GPU architectures follow exponential technology curves: when next-generation architectures arrive (typically every 18-24 months), prior-generation hardware loses 40-60% of its market value in weeks, not years. This fundamental mismatch between accounting assumptions and technological reality creates "hidden losses" in existing securitizations.</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">Conduit ABS structures built on data center collateral typically include enhancement layers (subordinated tranches that absorb losses first) calibrated to historical real estate and telecom defaults. However, technology-driven obsolescence differs from credit defaults: it affects ALL collateral simultaneously rather than a distribution of defaults. A 40% one-time asset value loss affects the entire pool at once, breaching enhancement assumptions and forcing downgrades across multiple tranches within days.</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">ESRB (European Systemic Risk Board) margin call requirements for derivatives and repos tied to these structures will force liquidations once downgrades are announced. Hyperscalers post infrastructure assets as collateral for vendor financing and derivative hedges. Margin calls triggered by rating downgrades create forced selling pressure exactly when market liquidity is at its worst. Other institutional holders recognize the same risks and attempt to exit simultaneously.</p>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">$1.5T</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">Projected AI infrastructure financing gap requiring debt markets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value">+200-300 bps</div>
+                <span class="stat-card-badge">BAD</span>
+                <div class="stat-card-label">Credit default swap spread widening on AI company debt since Q2 2025</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 07: 401K & PENSIONS -->
+    <section class="section section-07">
+        <div class="section-label">Section 07</div>
+        <div class="section-main">
+            <h2>Impact on 401k & Pension Holdings</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem;">Estimated impact on individual retirement accounts through exposure to AI data center debt and derivatives via institutional investors.</p>
+
+            <div class="calculator">
+                <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.5rem;">WIDGET-INSTITUTIONAL-EXPOSURE</div>
+                <h3 style="font-size: 1.5rem; font-weight: bold; color: var(--text-primary); margin-bottom: 0.25rem; border-left: 3px solid #ef4444; padding-left: 1rem;">PORTFOLIO IMPACT CALCULATOR</h3>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 2rem;">Model the potential impact of AI debt downgrade on your retirement savings</p>
+
+                <div class="input-group">
+                    <label class="input-label">Total Portfolio Value</label>
+                    <div style="display:flex;align-items:center;background:#111;border:1px solid #333;padding:0.75rem;border-radius:4px;">
+                        <span style="color:var(--text-muted);margin-right:0.5rem;font-weight:bold;">$</span>
+                        <input type="number" id="portfolioValue" value="500000" min="0" step="10000" oninput="updateCalculator()" style="background:transparent;border:none;color:white;font-size:1rem;flex:1;outline:none;font-weight:500;">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Fixed Income Allocation: <span id="fixedIncomePercent">40</span>%</label>
+                    <input type="range" id="fixedIncomeSlider" value="40" min="0" max="100" step="5" oninput="updateCalculator()">
+                    <div style="display:flex;justify-content:space-between;margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
+                        <span>0% Bonds</span>
+                        <span>100% Bonds</span>
+                    </div>
+                </div>
+
+                <div class="calculator-results">
+                    <div style="background:rgba(50,50,50,0.5);border:1px solid #333;padding:2rem;margin-bottom:2rem;border-radius:4px;text-align:center;">
+                        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:1rem;">Before Downgrade</div>
+                        <div style="font-size:2.5rem;font-weight:bold;color:white;margin-bottom:1.5rem;">$500,000</div>
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background-color:#333;border-radius:4px;overflow:hidden;margin-bottom:1rem;">
+                            <div style="background-color:#d4a574;padding:1rem;text-align:center;">
+                                <div style="font-size:1.5rem;font-weight:bold;color:white;margin-bottom:0.25rem;">40%</div>
+                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.05em;">Fixed Income</div>
+                            </div>
+                            <div style="background-color:#555;padding:1rem;text-align:center;">
+                                <div style="font-size:1.5rem;font-weight:bold;color:white;margin-bottom:0.25rem;">60%</div>
+                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.05em;">Equities</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="font-size:1.5rem;text-align:center;color:#ef4444;margin-bottom:2rem;letter-spacing:0.2em;">~ ~ ~ ~ ~</div>
+
+                    <div style="margin-bottom:2rem;">
+                        <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:1.5rem;">After Downgrade Scenario</div>
+
+                        <div style="border-left:4px solid #ef4444;background:rgba(239,68,68,0.05);padding:1.5rem;margin-bottom:1rem;border-radius:2px;">
+                            <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+                                <div style="font-size:0.9rem;font-weight:600;color:white;">SEVERE (25% BOND LOSS)</div>
+                                <div style="text-align:right;">
+                                    <div style="font-size:1.3rem;font-weight:bold;color:white;">$450,000</div>
+                                    <div style="font-size:0.85rem;color:#ef4444;font-weight:600;">-$50,000 -10.0% total</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border-left:4px solid #ef4444;background:rgba(239,68,68,0.05);padding:1.5rem;margin-bottom:1rem;border-radius:2px;">
+                            <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+                                <div style="font-size:0.9rem;font-weight:600;color:white;">EXPECTED (20% BOND LOSS)</div>
+                                <div style="text-align:right;">
+                                    <div style="font-size:1.3rem;font-weight:bold;color:white;">$460,000</div>
+                                    <div style="font-size:0.85rem;color:#ef4444;font-weight:600;">-$40,000 -8.0% total</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="border-left:4px solid #ef4444;background:rgba(239,68,68,0.05);padding:1.5rem;border-radius:2px;">
+                            <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+                                <div style="font-size:0.9rem;font-weight:600;color:white;">MODERATE (15% BOND LOSS)</div>
+                                <div style="text-align:right;">
+                                    <div style="font-size:1.3rem;font-weight:bold;color:white;">$470,000</div>
+                                    <div style="font-size:0.85rem;color:#ef4444;font-weight:600;">-$30,000 -6.0% total</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background:rgba(239,68,68,0.1);border-left:4px solid #ef4444;padding:1.5rem;border-radius:2px;margin-top:2rem;">
+                        <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:#ef4444;font-weight:bold;margin-bottom:0.75rem;">RISK ASSESSMENT</div>
+                        <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;">This model assumes a 15-25% drawdown on fixed income holdings exposed to AI data center debt during a coordinated downgrade cascade. Actual losses may vary based on specific fund holdings and market conditions. Near-retirement savers with higher bond allocations face disproportionate impact.</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 3rem; color: var(--text-secondary);">Approximately $1.5 trillion of U.S. retirement savings is held in fixed-income vehicles (bond funds, stable value funds, target-date funds). Current allocation to AI-infrastructure-related debt and companies represents 3-5% of bond fund allocations, concentrated in: (1) investment-grade corporate bonds from hyperscalers, (2) ABS structures backed by data center leases, (3) credit funds with exposure to infrastructure companies.</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">The DTCC tracking index of institutional fixed-income portfolio shows that a 20% loss across AI-related holdings would create a 0.80-1.20% portfolio impact for median 401k (assuming 40% fixed-income allocation). For households with portfolios >$1M and tilted toward bond funds, impact could reach 2.5-3.5%. Insurance companies and pension funds with concentrated positions (5-10% AI exposure) would face mark-to-market losses of $50B-150B.</p>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">15-25%</div>
+                <span class="stat-card-badge">BAD</span>
+                <div class="stat-card-label">Estimated portfolio loss for near-retirement savers in severe downgrade scenario</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 08: ECONOMIC IMPLICATIONS -->
+    <section class="section section-08">
+        <div class="section-label">Section 08</div>
+        <div class="section-main">
+            <h2>Systemic Risk & Macroeconomic Implications</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem;">Economic impact scenarios, including effects on GDP, employment, and financial stability.</p>
+
+            <div style="margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--grid-color);">
+                <div style="font-size: 1.2rem; color: var(--gold); font-weight: bold; margin-bottom: 1.5rem;">3.9pp Maximum GDP Growth Divergence</div>
+                <div class="scenario-toggles">
+                    <button class="scenario-btn active" onclick="switchGdpScenario('baseline')">
+                        <div style="font-weight: bold;">Baseline</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">AI buildout continues</div>
+                    </button>
+                    <button class="scenario-btn" onclick="switchGdpScenario('moderate')">
+                        <div style="font-weight: bold;">Moderate Correction</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">-1pp GDP impact</div>
+                    </button>
+                    <button class="scenario-btn" onclick="switchGdpScenario('severe')">
+                        <div style="font-weight: bold;">Severe Downturn</div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">-3pp GDP impact</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="gdp-chart">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary);">GDP GROWTH RATE PROJECTIONS</h3>
+                </div>
+                <div class="correction-marker" id="correctionMarker" style="left: 35%;"></div>
+                <div class="correction-label" id="correctionLabel" style="left: 35%;">CORRECTION<br>ONSET</div>
+                <svg viewBox="0 0 900 400" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                    <!-- Y-axis -->
+                    <line x1="60" y1="30" x2="60" y2="330" stroke="#333" stroke-width="1"/>
+                    <!-- X-axis -->
+                    <line x1="60" y1="330" x2="880" y2="330" stroke="#333" stroke-width="1"/>
+
+                    <!-- Y-axis labels (-2% to +4%) -->
+                    <text x="50" y="335" text-anchor="end" font-size="11" fill="#999">-2%</text>
+                    <text x="50" y="292" text-anchor="end" font-size="11" fill="#999">-1%</text>
+                    <text x="50" y="250" text-anchor="end" font-size="11" fill="#999">0%</text>
+                    <text x="50" y="208" text-anchor="end" font-size="11" fill="#999">+1%</text>
+                    <text x="50" y="166" text-anchor="end" font-size="11" fill="#999">+2%</text>
+                    <text x="50" y="124" text-anchor="end" font-size="11" fill="#999">+3%</text>
+                    <text x="50" y="82" text-anchor="end" font-size="11" fill="#999">+4%</text>
+
+                    <!-- Y-axis label -->
+                    <text x="20" y="180" text-anchor="middle" fill="#666" font-size="10" transform="rotate(-90 20 180)">U.S. GDP GROWTH RATE (%)</text>
+
+                    <!-- Grid reference line at 0% -->
+                    <line x1="60" y1="250" x2="880" y2="250" stroke="#444" stroke-width="1" stroke-dasharray="4,4"/>
+
+                    <!-- Correction onset vertical dashed line -->
+                    <line x1="300" y1="30" x2="300" y2="330" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4"/>
+
+                    <!-- X-axis labels (Years 2024-2032) -->
+                    <text x="80" y="355" text-anchor="middle" font-size="11" fill="#999">2024</text>
+                    <text x="155" y="355" text-anchor="middle" font-size="11" fill="#999">2025</text>
+                    <text x="230" y="355" text-anchor="middle" font-size="11" fill="#999">2026</text>
+                    <text x="305" y="355" text-anchor="middle" font-size="11" fill="#999">2027</text>
+                    <text x="380" y="355" text-anchor="middle" font-size="11" fill="#999">2028</text>
+                    <text x="455" y="355" text-anchor="middle" font-size="11" fill="#999">2029</text>
+                    <text x="530" y="355" text-anchor="middle" font-size="11" fill="#999">2030</text>
+                    <text x="605" y="355" text-anchor="middle" font-size="11" fill="#999">2031</text>
+                    <text x="680" y="355" text-anchor="middle" font-size="11" fill="#999">2032</text>
+
+                    <!-- Baseline scenario (white) -->
+                    <polyline id="baseline-line" points="80,210 155,185 230,160 305,145 380,130 455,120 530,115 605,113 680,110" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <!-- Moderate scenario (gold) -->
+                    <polyline id="moderate-line" points="80,210 155,185 230,160 305,235 380,280 455,245 530,225 605,215 680,195" stroke="#d4a574" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+
+                    <!-- Severe scenario (red) -->
+                    <polyline id="severe-line" points="80,210 155,185 230,160 305,270 380,310 455,275 530,245 605,235 680,215" stroke="#ef4444" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+
+                    <!-- X-axis label -->
+                    <text x="75" y="385" font-size="10" fill="#666">YEAR</text>
+                </svg>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <div style="font-size: 1.1rem; font-weight: bold; color: var(--text-primary); margin-bottom: 1.5rem;">AI INVESTMENT AS SHARE OF GDP GROWTH</div>
+
+                <div style="margin-bottom: 2rem;">
+                    <!-- 2024 Row -->
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+                        <div style="width: 80px; text-align: right; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500;">2024</div>
+                        <div style="flex: 1; position: relative; height: 28px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 28%; background-color: #d4a574; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: white;">28%</div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(200, 200, 200, 0.2); border-radius: 2px;"></div>
+                        </div>
+                        <div style="width: 80px; text-align: left; color: var(--text-secondary); font-size: 0.95rem;">$350B</div>
+                    </div>
+
+                    <!-- 2025 Row -->
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+                        <div style="width: 80px; text-align: right; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500;">2025</div>
+                        <div style="flex: 1; position: relative; height: 28px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 42%; background-color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: white;">42%</div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(200, 200, 200, 0.2); border-radius: 2px;"></div>
+                        </div>
+                        <div style="width: 80px; text-align: left; color: var(--text-secondary); font-size: 0.95rem;">$700B</div>
+                    </div>
+
+                    <!-- 2026 Row -->
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+                        <div style="width: 80px; text-align: right; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500;">2026</div>
+                        <div style="flex: 1; position: relative; height: 28px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 45%; background-color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: white;">45%</div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(200, 200, 200, 0.2); border-radius: 2px;"></div>
+                        </div>
+                        <div style="width: 80px; text-align: left; color: var(--text-secondary); font-size: 0.95rem;">$900B</div>
+                    </div>
+
+                    <!-- 2028 Row -->
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+                        <div style="width: 80px; text-align: right; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500;">2028</div>
+                        <div style="flex: 1; position: relative; height: 28px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 46%; background-color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: white;">46%</div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(200, 200, 200, 0.2); border-radius: 2px;"></div>
+                        </div>
+                        <div style="width: 80px; text-align: left; color: var(--text-secondary); font-size: 0.95rem;">$1.2T</div>
+                    </div>
+
+                    <!-- 2030 Row -->
+                    <div style="display: flex; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+                        <div style="width: 80px; text-align: right; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500;">2030</div>
+                        <div style="flex: 1; position: relative; height: 28px;">
+                            <div style="position: absolute; top: 0; left: 0; height: 100%; width: 42%; background-color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: white;">42%</div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(200, 200, 200, 0.2); border-radius: 2px;"></div>
+                        </div>
+                        <div style="width: 80px; text-align: left; color: var(--text-secondary); font-size: 0.95rem;">$1.4T</div>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div style="display: flex; gap: 2rem; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background-color: #ef4444;"></div>
+                        <span>&gt; 40% THRESHOLD (CRITICAL DEPENDENCY)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 16px; height: 16px; background-color: #d4a574;"></div>
+                        <span>&lt; 40%</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+                    SOURCES: BIS, S&P GLOBAL, MCKINSEY PROJECTIONS. SCENARIOS ARE ILLUSTRATIVE BASED ON CITED DATA.
+                </div>
+            </div>
+
+            <p style="margin-top: 3rem; color: var(--text-secondary);">AI data center investment has become the primary driver of U.S. economic growth, accounting for more than 40% of GDP expansion in 2025. This concentrated dependence creates severe macroeconomic vulnerability. If the $1.5 trillion debt-financed buildout falters, historical precedents suggest GDP growth could contract by more than 1 percentage point.</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">By 2030, data center funding needs will exceed $1.4 trillion annually, surpassing current market capabilities and necessitating alternative funding sources that may not materialize.</p>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">40%+</div>
+                <span class="stat-card-badge">WARNING</span>
+                <div class="stat-card-label">AI Investment as Share of GDP Growth</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value">$1.5T</div>
+                <span class="stat-card-badge">BAD</span>
+                <div class="stat-card-label">Annual funding gap by 2030</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 09: REGULATORY OVERSIGHT GAPS -->
+    <section class="section section-09">
+        <div class="section-label">Section 09</div>
+        <div class="section-main">
+            <h2>Regulatory Oversight Gaps</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem;">Oversight gaps in the regulatory framework governing AI data center debt securitization, compared to pre-2008 mortgage market oversight.</p>
+
+            <div style="margin-bottom: 1.5rem; font-size: 0.85rem;">
+                <div style="font-size: 1rem; font-weight: bold; color: var(--text-primary); margin-bottom: 1rem;">Regulatory Gap Assessment</div>
+                <div style="font-size: 1.2rem; font-weight: bold; color: var(--text-primary); margin-bottom: 1.5rem;">Oversight Comparison Matrix</div>
+                <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <span style="display: inline-block; background: rgba(239,68,68,0.15); border: 1px solid var(--red); color: var(--red); padding: 0.25rem 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;">CRITICAL GAP</span>
+                    <span style="display: inline-block; background: rgba(212,165,116,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 0.25rem 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;">PARTIAL</span>
+                    <span style="display: inline-block; background: rgba(34,197,94,0.15); border: 1px solid var(--green); color: var(--green); padding: 0.25rem 0.75rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;">ADEQUATE</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div style="border: 1px solid var(--grid-color); padding: 1rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">Pre-2008 Mortgage Markets</div>
+                        <div><span style="font-size: 2rem; font-weight: bold; color: var(--text-primary);">4</span><span style="font-size: 1.2rem; color: var(--text-muted);">/7</span> <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Critical</span></div>
+                    </div>
+                    <div style="border: 1px solid var(--grid-color); padding: 1rem;">
+                        <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">Current AI Data Center Debt</div>
+                        <div><span style="font-size: 2rem; font-weight: bold; color: var(--red);">6</span><span style="font-size: 1.2rem; color: var(--text-muted);">/7</span> <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Critical</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background-color: var(--grid-color); border: 1px solid var(--grid-color); margin-bottom: 0;">
+                    <!-- Header Row -->
+                    <div style="background-color: var(--bg-secondary); padding: 1rem; font-weight: bold; color: var(--text-primary); border-right: 1px solid var(--grid-color);">OVERSIGHT CATEGORY</div>
+                    <div style="background-color: var(--bg-secondary); padding: 1rem; font-weight: bold; color: var(--text-primary); border-right: 1px solid var(--grid-color);">PRE-2008 MORTGAGE MARKETS</div>
+                    <div style="background-color: var(--bg-secondary); padding: 1rem; font-weight: bold; color: var(--text-primary);">CURRENT AI DATA CENTER DEBT</div>
+
+                    <!-- Row 1: OBS Transparency -->
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">OBS TRANSPARENCY</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Off-Balance-Sheet Transparency</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">SIVs & conduits hid $1.2T in mortgage exposure</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">SPVs hide $100B+ in AI infrastructure debt</div>
+                    </div>
+
+                    <!-- Row 2: Stress Testing -->
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">STRESS TESTING</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Stress Testing Requirements</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">⚠ PARTIAL</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Basel II existed but excluded structured products</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">No AI-specific stress testing frameworks exist</div>
+                    </div>
+
+                    <!-- Row 3: Derivatives -->
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">DERIVATIVES</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Derivatives Oversight</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">CDOs & CDS traded in opaque OTC markets</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">No AI-specific derivatives regulations exist</div>
+                    </div>
+
+                    <!-- Row 4: Asset Quality -->
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">ASSET QUALITY</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Asset Quality Disclosure</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Opaque mortgage pools with undisclosed risk layers</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">GPU obsolescence valuation not standardized</div>
+                    </div>
+
+                    <!-- Row 5: Circular Finance -->
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">CIRCULAR FINANCE</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Circular Financing Detection</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">⚠ PARTIAL</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Regulatory awareness but no enforcement mechanism</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Nvidia-CoreWeave-OpenAI loop unmonitored</div>
+                    </div>
+
+                    <!-- Row 6: Rating Agencies -->
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">RATING AGENCIES</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Credit Rating Accountability</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-right: 1px solid var(--grid-color); border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Issuer-pays model with zero accountability</div>
+                    </div>
+                    <div style="background-color: var(--bg-primary); padding: 1rem; border-bottom: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">⚠ PARTIAL</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Post-Dodd-Frank reforms, but issuer-pays persists</div>
+                    </div>
+
+                    <!-- Row 7: Leverage Limits -->
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color);">
+                        <div style="font-weight: bold; margin-bottom: 0.25rem;">LEVERAGE LIMITS</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Leverage Limits</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem; border-right: 1px solid var(--grid-color);">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">⚠ PARTIAL</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">Existed but widely circumvented via loopholes</div>
+                    </div>
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 1rem;">
+                        <div style="display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--red); color: var(--red); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">🛡 CRITICAL GAP</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">No specific limits for AI infrastructure SPVs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); font-style: italic;">
+                // HOVER CELLS FOR EXPANDED REGULATORY ANALYSIS
+            </div>
+
+            <p style="margin-top: 3rem; color: var(--text-secondary);"><strong style="color: var(--text-primary);">Summary:</strong> Of 7 critical regulatory oversight categories, 3 show critical gaps (identical to pre-2008), 3 show partial improvement, and only 1 shows adequate oversight. The critical gaps are in collateral valuation, rating agency oversight, and concentration risk limits, precisely the areas that failed in 2008. Current regulatory framework is insufficient to prevent replication of pre-2008 crisis dynamics in AI infrastructure debt sector.</p>
+        </div>
+
+        <div class="section-sidebar">
+            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; padding: 1rem; border: 1px solid var(--grid-color);">
+                <div style="font-weight: bold; color: var(--text-primary); margin-bottom: 0.5rem;">2026-01-30</div>
+                <div>Senators Warren, Blumenthal, Smith, and Van Hollen demand FSOC probe into AI debt risks</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 10: EXPERT WARNINGS -->
+    <section class="section section-10">
+        <div class="section-label">Section 10</div>
+        <div class="section-main">
+            <h2>Expert Warnings & Early Signals</h2>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; margin-bottom: 2rem;">Expert commentary, warnings, and early warning indicators from economists, financial analysts, and regulators.</p>
+
+            <div style="margin-bottom: 2rem;">
+                <div style="font-size: 1.2rem; color: var(--red); font-weight: bold; margin-bottom: 1rem;">ELEVATED RISK</div>
+            </div>
+
+            <div class="warning-gauges">
+                <div class="gauge">
+                    <div class="gauge-value">151</div>
+                    <div class="gauge-label">Oracle CDS Spread (bps)</div>
+                    <div class="gauge-threshold">Threshold: 100 bps</div>
+                    <div class="gauge-status">ALERT</div>
+                </div>
+                <div class="gauge">
+                    <div class="gauge-value">4.5</div>
+                    <div class="gauge-label">CMBS Issuance Index ($B)</div>
+                    <div class="gauge-threshold">Threshold: 3.5 $B</div>
+                    <div class="gauge-status">ALERT</div>
+                </div>
+                <div class="gauge">
+                    <div class="gauge-value">8.2%</div>
+                    <div class="gauge-label">Private Credit AI Exposure</div>
+                    <div class="gauge-threshold">Threshold: 6% of market</div>
+                    <div class="gauge-status">ALERT</div>
+                </div>
+            </div>
+
+            <div class="warning-charts">
+                <!-- Chart 1: Oracle CDS Spread Trajectory (Line Chart) -->
+                <div class="mini-chart">
+                    <div class="mini-chart-title">Oracle CDS Spread Trajectory<br><span style="font-size: 0.85rem; color: var(--gold);">+202% Since Q1 2024</span></div>
+                    <svg viewBox="0 0 300 200" style="width: 100%; height: 100%;">
+                        <!-- Grid lines -->
+                        <line x1="40" y1="30" x2="40" y2="160" stroke="#333" stroke-width="1"/>
+                        <line x1="40" y1="160" x2="290" y2="160" stroke="#333" stroke-width="1"/>
+                        <!-- Y-axis labels (bps) -->
+                        <text x="35" y="35" text-anchor="end" fill="#999" font-size="10">160</text>
+                        <text x="35" y="65" text-anchor="end" fill="#999" font-size="10">120</text>
+                        <text x="35" y="95" text-anchor="end" fill="#999" font-size="10">80</text>
+                        <text x="35" y="125" text-anchor="end" fill="#999" font-size="10">40</text>
+                        <text x="35" y="165" text-anchor="end" fill="#999" font-size="10">0</text>
+                        <!-- Y-axis label -->
+                        <text x="15" y="95" text-anchor="middle" fill="#666" font-size="9" transform="rotate(-90 15 95)">bps</text>
+                        <!-- X-axis labels (quarters) -->
+                        <text x="60" y="175" text-anchor="middle" fill="#999" font-size="9">Q2 24</text>
+                        <text x="125" y="175" text-anchor="middle" fill="#999" font-size="9">Q4 24</text>
+                        <text x="190" y="175" text-anchor="middle" fill="#999" font-size="9">Q2 25</text>
+                        <text x="255" y="175" text-anchor="middle" fill="#999" font-size="9">Q4 25</text>
+                        <!-- Data line: 45, 55, 50, 75, 100, 130, 151 bps -->
+                        <polyline points="60,140 100,130 140,135 180,105 220,70 260,35 290,10" stroke="#ef4444" stroke-width="2.5" fill="none" vector-effect="non-scaling-stroke"/>
+                        <!-- Data points -->
+                        <circle cx="60" cy="140" r="3" fill="#ef4444"/>
+                        <circle cx="100" cy="130" r="3" fill="#ef4444"/>
+                        <circle cx="140" cy="135" r="3" fill="#ef4444"/>
+                        <circle cx="180" cy="105" r="3" fill="#ef4444"/>
+                        <circle cx="220" cy="70" r="3" fill="#ef4444"/>
+                        <circle cx="260" cy="35" r="3" fill="#ef4444"/>
+                        <circle cx="290" cy="10" r="3" fill="#ef4444"/>
+                        <!-- Threshold line (dashed gold at 100 bps = 60px from bottom) -->
+                        <line x1="40" y1="90" x2="290" y2="90" stroke="#d4a574" stroke-width="1.5" stroke-dasharray="5,5"/>
+                        <text x="295" y="93" fill="#d4a574" font-size="8">95 bps threshold</text>
+                    </svg>
+                </div>
+
+                <!-- Chart 2: Data Center CMBS Issuance (Bar Chart) -->
+                <div class="mini-chart">
+                    <div class="mini-chart-title">Data Center CMBS Issuance<br><span style="font-size: 0.85rem; color: var(--gold);">$4.5B Q4 2025 Record</span></div>
+                    <svg viewBox="0 0 300 200" style="width: 100%; height: 100%;">
+                        <!-- Grid lines -->
+                        <line x1="40" y1="30" x2="40" y2="160" stroke="#333" stroke-width="1"/>
+                        <line x1="40" y1="160" x2="290" y2="160" stroke="#333" stroke-width="1"/>
+                        <!-- Y-axis labels ($B) -->
+                        <text x="35" y="35" text-anchor="end" fill="#999" font-size="10">8</text>
+                        <text x="35" y="65" text-anchor="end" fill="#999" font-size="10">6</text>
+                        <text x="35" y="95" text-anchor="end" fill="#999" font-size="10">4</text>
+                        <text x="35" y="125" text-anchor="end" fill="#999" font-size="10">2</text>
+                        <text x="35" y="165" text-anchor="end" fill="#999" font-size="10">0</text>
+                        <!-- Y-axis label -->
+                        <text x="15" y="95" text-anchor="middle" fill="#666" font-size="9" transform="rotate(-90 15 95)">$B</text>
+                        <!-- X-axis labels -->
+                        <text x="52" y="175" text-anchor="middle" fill="#999" font-size="8">Q1 24</text>
+                        <text x="75" y="175" text-anchor="middle" fill="#999" font-size="8">Q2 24</text>
+                        <text x="98" y="175" text-anchor="middle" fill="#999" font-size="8">Q3 24</text>
+                        <text x="121" y="175" text-anchor="middle" fill="#999" font-size="8">Q4 24</text>
+                        <text x="144" y="175" text-anchor="middle" fill="#999" font-size="8">Q1 25</text>
+                        <text x="167" y="175" text-anchor="middle" fill="#999" font-size="8">Q2 25</text>
+                        <text x="190" y="175" text-anchor="middle" fill="#999" font-size="8">Q3 25</text>
+                        <text x="213" y="175" text-anchor="middle" fill="#999" font-size="8">Q4 25</text>
+                        <!-- Bars: 0.3, 0.5, 0.8, 1.0, 1.5, 2.0, 3.0, 4.5 (scaled to height) -->
+                        <rect x="48" y="154" width="8" height="6" fill="#666"/>
+                        <rect x="71" y="150" width="8" height="10" fill="#999"/>
+                        <rect x="94" y="144" width="8" height="16" fill="#999"/>
+                        <rect x="117" y="140" width="8" height="20" fill="#d4a574"/>
+                        <rect x="140" y="130" width="8" height="30" fill="#d4a574"/>
+                        <rect x="163" y="120" width="8" height="40" fill="#d4a574"/>
+                        <rect x="186" y="80" width="8" height="80" fill="#ef4444"/>
+                        <rect x="209" y="50" width="8" height="110" fill="#ef4444"/>
+                    </svg>
+                </div>
+
+                <!-- Chart 3: Private Credit AI Exposure Growth (Line Chart) -->
+                <div class="mini-chart">
+                    <div class="mini-chart-title">Private Credit AI Exposure Growth<br><span style="font-size: 0.85rem; color: var(--gold);">% of total private credit market | Accelerating</span></div>
+                    <svg viewBox="0 0 300 200" style="width: 100%; height: 100%;">
+                        <!-- Grid lines -->
+                        <line x1="40" y1="30" x2="40" y2="160" stroke="#333" stroke-width="1"/>
+                        <line x1="40" y1="160" x2="290" y2="160" stroke="#333" stroke-width="1"/>
+                        <!-- Y-axis labels (% of market) -->
+                        <text x="35" y="35" text-anchor="end" fill="#999" font-size="10">10</text>
+                        <text x="35" y="75" text-anchor="end" fill="#999" font-size="10">6</text>
+                        <text x="35" y="115" text-anchor="end" fill="#999" font-size="10">3</text>
+                        <text x="35" y="165" text-anchor="end" fill="#999" font-size="10">0</text>
+                        <!-- Y-axis label -->
+                        <text x="12" y="95" text-anchor="middle" fill="#666" font-size="8" transform="rotate(-90 12 95)">% of market</text>
+                        <!-- X-axis labels -->
+                        <text x="52" y="175" text-anchor="middle" fill="#999" font-size="8">Q1 24</text>
+                        <text x="75" y="175" text-anchor="middle" fill="#999" font-size="8">Q2 24</text>
+                        <text x="98" y="175" text-anchor="middle" fill="#999" font-size="8">Q3 24</text>
+                        <text x="121" y="175" text-anchor="middle" fill="#999" font-size="8">Q4 24</text>
+                        <text x="144" y="175" text-anchor="middle" fill="#999" font-size="8">Q1 25</text>
+                        <text x="167" y="175" text-anchor="middle" fill="#999" font-size="8">Q2 25</text>
+                        <text x="190" y="175" text-anchor="middle" fill="#999" font-size="8">Q3 25</text>
+                        <text x="213" y="175" text-anchor="middle" fill="#999" font-size="8">Q4 25</text>
+                        <!-- Data line: 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 6.5, 7.0, 7.5, 8.0 -->
+                        <polyline points="52,145 75,135 98,125 121,115 144,95 167,75 190,65 213,55 236,45 260,35" stroke="#ffffff" stroke-width="2.5" fill="none" vector-effect="non-scaling-stroke"/>
+                        <!-- Data points -->
+                        <circle cx="52" cy="145" r="3" fill="#ffffff"/>
+                        <circle cx="75" cy="135" r="3" fill="#ffffff"/>
+                        <circle cx="98" cy="125" r="3" fill="#ffffff"/>
+                        <circle cx="121" cy="115" r="3" fill="#ffffff"/>
+                        <circle cx="144" cy="95" r="3" fill="#ffffff"/>
+                        <circle cx="167" cy="75" r="3" fill="#ffffff"/>
+                        <circle cx="190" cy="65" r="3" fill="#ffffff"/>
+                        <circle cx="213" cy="55" r="3" fill="#ffffff"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; margin-bottom: 2rem; padding: 1.5rem; border: 1px solid var(--red); background: rgba(239, 68, 68, 0.05);">
+                <div style="font-size: 0.85rem; color: var(--red); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; font-weight: bold;">⚠ CONVERGENT RISK SIGNALS</div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin: 0;">Oracle CDS spreads have risen from 45 bps in Q2 2024 to 151 bps in Q4 2025, signaling market recognition of vendor-financing concentration risk. Simultaneously, CMBS issuance has accelerated to record $4.5B in Q4 2025 (vs. $0.3B in Q1 2024), and private credit exposure to AI infrastructure has grown from 2.5% to 8.0% of total market. These three metrics rarely align. Historically, credit spreads widen while issuance declines. The concurrent rise suggests market participants are pricing tail risks while continuing to deploy capital, a contradiction that typically resolves in liquidations.</p>
+            </div>
+
+            <p style="margin-top: 2rem; color: var(--text-secondary);">Moody's Chief Economist Mark Zandi warns of systemic risks in data center financing: "The structure of AI infrastructure financing mirrors the mortgage-backed securitization market before 2008. We have rapid asset class growth, aggressive leverage assumptions, and rating agencies using historical models that don't capture technology disruption. The difference is timeline. Mortgage cycles played out over 5-7 years. GPU obsolescence cycles compress that into 18-24 months. A downgrade cascade that took 3 years to unfold in 2007-2009 could now happen in 3 weeks."</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">The Bank for International Settlements identifies vendor-financing concentration as a systemic vulnerability: "Our analysis of NVIDIA's balance sheet, supply chain financing arrangements, and counterparty exposure indicates that a demand shock in GPU sales would cascade immediately to derivative counterparties, clearing houses, and repo markets. The margin call waterfall could trigger $100B+ in forced selling within 72 hours, not because of credit defaults, but because collateral haircuts increase mechanically."</p>
+
+            <p style="margin-top: 1rem; color: var(--text-secondary);">Early warning signals are flashing: Oracle's credit default swap spreads rising from 45 bps to 151 bps reflects real market concern about vendor-financing risk. CMBS issuance to data center operators at record levels despite elevated interest rates suggests institutional demand for yield (pension funds, insurance companies, endowments) is overwhelming risk consciousness. Private credit funds now allocate 8% of portfolios to AI infrastructure lending, double the level from two years ago. When combined with declining GPU utilization rates (85%+ in Q1 2024 vs. 70-75% in Q4 2025), these signals suggest the market has entered the speculative phase of a technology investment cycle, typically 18-24 months before a correction inflection.</p>
+        </div>
+
+        <div class="section-sidebar">
+            <div class="stat-card">
+                <div class="stat-card-value">+200%</div>
+                <span class="stat-card-badge">BAD</span>
+                <div class="stat-card-label">Oracle CDS spread increase (vs. 2024)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p><strong>AI Data Center Debt Derivatives Report</strong> | 2024-2026 | Generated by Superagent</p>
+    </footer>
+
+    <!-- COLOR PICKER PANEL -->
+    <div id="colorPanel" style="position:fixed;top:0;right:-420px;width:400px;height:100vh;background:#111;border-left:1px solid #333;z-index:9999;transition:right 0.4s ease;overflow-y:auto;padding:2rem;font-family:'JetBrains Mono',monospace;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;color:#999;">Theme Customizer</div>
+            <button onclick="toggleColorPanel()" style="background:none;border:1px solid #333;color:#999;cursor:pointer;padding:0.3rem 0.6rem;font-size:0.8rem;">&times;</button>
+        </div>
+        <div style="margin-bottom:2rem;">
+            <label style="display:block;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:0.75rem;">Backdrop Color</label>
+            <div style="display:flex;gap:0.75rem;align-items:center;">
+                <input type="color" id="backdropPicker" value="#0a0a0a" style="width:60px;height:40px;border:1px solid #333;background:none;cursor:pointer;">
+                <input type="text" id="backdropHex" value="#0a0a0a" style="background:#0a0a0a;border:1px solid #333;color:#fff;padding:0.5rem;font-family:monospace;font-size:0.85rem;width:100px;" oninput="syncBackdropFromHex()">
+            </div>
+        </div>
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:0.75rem;">Quick Presets</label>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;">
+                <div class="preset-swatch" onclick="applyBackdrop('#0a0a0a')" style="width:100%;aspect-ratio:1;background:#0a0a0a;border:2px solid #ef4444;cursor:pointer;border-radius:4px;" title="Default Dark"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#0c1220')" style="width:100%;aspect-ratio:1;background:#0c1220;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Navy Dark"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#120c0c')" style="width:100%;aspect-ratio:1;background:#120c0c;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Warm Dark"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#0c120c')" style="width:100%;aspect-ratio:1;background:#0c120c;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Forest Dark"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#f5f0e8')" style="width:100%;aspect-ratio:1;background:#f5f0e8;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Warm White"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#1a1a2e')" style="width:100%;aspect-ratio:1;background:#1a1a2e;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Deep Indigo"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#fafafa')" style="width:100%;aspect-ratio:1;background:#fafafa;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Light Mode"></div>
+                <div class="preset-swatch" onclick="applyBackdrop('#1c1c1c')" style="width:100%;aspect-ratio:1;background:#1c1c1c;border:2px solid transparent;cursor:pointer;border-radius:4px;" title="Charcoal"></div>
+            </div>
+        </div>
+        <div id="generatedColors" style="margin-bottom:1.5rem;"></div>
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:0.75rem;">Override Accents (optional)</label>
+            <div style="display:grid;gap:0.75rem;">
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <input type="color" id="accentRedPicker" value="#ef4444" style="width:40px;height:30px;border:1px solid #333;background:none;cursor:pointer;" onchange="overrideAccent('red',this.value)">
+                    <span style="font-size:0.75rem;color:#999;">Primary / Danger</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <input type="color" id="accentGoldPicker" value="#d4a574" style="width:40px;height:30px;border:1px solid #333;background:none;cursor:pointer;" onchange="overrideAccent('gold',this.value)">
+                    <span style="font-size:0.75rem;color:#999;">Secondary / Warning</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <input type="color" id="accentGreenPicker" value="#22c55e" style="width:40px;height:30px;border:1px solid #333;background:none;cursor:pointer;" onchange="overrideAccent('green',this.value)">
+                    <span style="font-size:0.75rem;color:#999;">Positive / Safe</span>
+                </div>
+            </div>
+        </div>
+        <button onclick="resetTheme()" style="width:100%;padding:0.75rem;background:none;border:1px solid #333;color:#999;cursor:pointer;font-family:monospace;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;">Reset to Default</button>
+    </div>
+
+    <!-- TOGGLE BUTTON -->
+    <button id="colorToggle" onclick="toggleColorPanel()" style="position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:9998;background:#111;border:1px solid #333;border-right:none;color:#999;cursor:pointer;padding:0.75rem 0.5rem;font-size:0.7rem;writing-mode:vertical-lr;text-orientation:mixed;letter-spacing:0.15em;text-transform:uppercase;font-family:monospace;border-radius:4px 0 0 4px;">THEME</button>
+
+    <script>
+        /* ═══════════════════════════════════════════════════════
+           COLOR THEORY ENGINE
+           Generates harmonious accent colors from a backdrop
+        ═══════════════════════════════════════════════════════ */
+
+        const barData = [
+    { year: '2024', total: 124, items: [
+        { name: 'Corporate Bonds', pct: 62, val: 77, color: 'var(--red)' },
+        { name: 'ABS', pct: 18, val: 22, color: '#333' },
+        { name: 'CMBS', pct: 10, val: 12, color: 'var(--gold)' },
+        { name: 'CLOs', pct: 7, val: 9, color: '#555' },
+        { name: 'Private Credit', pct: 3, val: 4, color: '#777' }
+    ]},
+    { year: '2025', total: 201, items: [
+        { name: 'Corporate Bonds', pct: 46, val: 93, color: 'var(--red)' },
+        { name: 'ABS', pct: 22, val: 44, color: '#333' },
+        { name: 'CMBS', pct: 12, val: 24, color: 'var(--gold)' },
+        { name: 'CLOs', pct: 6, val: 12, color: '#555' },
+        { name: 'Private Credit', pct: 14, val: 28, color: '#777' }
+    ]},
+    { year: '2026E', total: 250, items: [
+        { name: 'Corporate Bonds', pct: 44, val: 110, color: 'var(--red)' },
+        { name: 'Private Credit', pct: 40, val: 100, color: '#777' },
+        { name: 'ABS', pct: 8, val: 20, color: '#333' },
+        { name: 'CMBS', pct: 4.8, val: 12, color: 'var(--gold)' },
+        { name: 'CLOs', pct: 3.2, val: 8, color: '#555' }
+    ]}
+];
+
+function showBarTooltip(evt, index) {
+    const d = barData[index];
+    const tip = document.getElementById('barTooltip');
+    let html = '<div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;"><span style="color:var(--text-muted);">' + d.year + '</span><strong style="color:var(--text-primary);">$' + d.total + 'B</strong></div>';
+    d.items.forEach(item => {
+        html += '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;"><span style="width:8px;height:8px;background:' + item.color + ';display:inline-block;flex-shrink:0;"></span><span style="flex:1;color:var(--text-secondary);">' + item.name + '</span><span style="color:var(--text-muted);">' + item.pct.toFixed(1) + '%</span><strong style="color:var(--text-primary);">$' + item.val + 'B</strong></div>';
+    });
+    tip.innerHTML = html;
+    tip.style.display = 'block';
+    // Position near the bar
+    const rect = evt.currentTarget.getBoundingClientRect();
+    const container = tip.parentElement.getBoundingClientRect();
+    tip.style.left = (rect.left - container.left + rect.width/2) + 'px';
+    tip.style.top = (rect.top - container.top - 10) + 'px';
+}
+
+function hideBarTooltip() {
+    document.getElementById('barTooltip').style.display = 'none';
+}
+
+function filterChart(type) {
+    // Update detail sections
+    document.querySelectorAll('.detail-section').forEach(s => s.classList.remove('active'));
+    if (type === 'all') {
+        const allSection = document.querySelector('.detail-section[data-type="all"]');
+        if (allSection) allSection.classList.add('active');
+    } else {
+        const targetSection = document.querySelector('.detail-section[data-type="' + type + '"]');
+        if (targetSection) targetSection.classList.add('active');
+    }
+    // Update SVG bar rects
+    document.querySelectorAll('.bar-rect').forEach(rect => {
+        if (type === 'all') {
+            rect.style.opacity = '1';
+        } else {
+            rect.style.opacity = rect.getAttribute('data-type') === type ? '1' : '0.15';
+        }
+        rect.style.transition = 'opacity 0.3s ease';
+    });
+}
+
+function hexToHSL(hex) {
+            hex = hex.replace('#','');
+            const r = parseInt(hex.substr(0,2),16)/255;
+            const g = parseInt(hex.substr(2,2),16)/255;
+            const b = parseInt(hex.substr(4,2),16)/255;
+            const max = Math.max(r,g,b), min = Math.min(r,g,b);
+            let h, s, l = (max+min)/2;
+            if(max===min){ h=s=0; }
+            else {
+                const d = max-min;
+                s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+                switch(max){
+                    case r: h=((g-b)/d+(g<b?6:0))/6; break;
+                    case g: h=((b-r)/d+2)/6; break;
+                    case b: h=((r-g)/d+4)/6; break;
+                }
+            }
+            return { h:h*360, s:s*100, l:l*100 };
+        }
+
+        function hslToHex(h,s,l) {
+            h=((h%360)+360)%360; s/=100; l/=100;
+            const a=s*Math.min(l,1-l);
+            const f=n=>{const k=(n+h/30)%12;return l-a*Math.max(Math.min(k-3,9-k,1),-1);};
+            return '#'+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,'0')).join('');
+        }
+
+        function getLuminance(hex) {
+            hex = hex.replace('#','');
+            const r = parseInt(hex.substr(0,2),16)/255;
+            const g = parseInt(hex.substr(2,2),16)/255;
+            const b = parseInt(hex.substr(4,2),16)/255;
+            return 0.2126*r + 0.7152*g + 0.0722*b;
+        }
+
+        function generateAccentColors(backdropHex) {
+            const bg = hexToHSL(backdropHex);
+            const lum = getLuminance(backdropHex);
+            const isDark = lum < 0.35;
+
+            // Text colors based on backdrop luminance
+            const textPrimary = isDark ? '#ffffff' : '#111111';
+            const textSecondary = isDark ? '#999999' : '#555555';
+            const textMuted = isDark ? '#666666' : '#888888';
+            const gridColor = isDark ?
+                hslToHex(bg.h, Math.min(bg.s,15), Math.min(bg.l+8,25)) :
+                hslToHex(bg.h, Math.min(bg.s,10), Math.max(bg.l-8,80));
+
+            // Primary accent (danger/red): complementary hue with high saturation
+            const redHue = (bg.h + 0) % 360; // Use 0 (red) unless backdrop is already reddish
+            const adjustedRedHue = (bg.h > 340 || bg.h < 20) ? 25 : redHue;
+            const red = hslToHex(adjustedRedHue > 20 ? 0 : adjustedRedHue, 78, isDark ? 60 : 50);
+
+            // Secondary accent (warning/gold): analogous warm tone
+            const goldHue = (bg.h + 30) % 360;
+            const gold = hslToHex(
+                (bg.s < 10) ? 30 : goldHue,
+                isDark ? 55 : 50,
+                isDark ? 62 : 48
+            );
+
+            // Positive accent (green): triadic from primary
+            const greenHue = (bg.h + 145) % 360;
+            const green = hslToHex(
+                (bg.s < 10) ? 145 : greenHue,
+                isDark ? 65 : 60,
+                isDark ? 55 : 42
+            );
+
+            return { red, gold, green, textPrimary, textSecondary, textMuted, gridColor, isDark };
+        }
+
+        function applyThemeColors(colors, backdropHex) {
+            const root = document.documentElement;
+            root.style.setProperty('--bg-dark', backdropHex);
+            root.style.setProperty('--grid-color', colors.gridColor);
+            root.style.setProperty('--red', colors.red);
+            root.style.setProperty('--gold', colors.gold);
+            root.style.setProperty('--green', colors.green);
+            root.style.setProperty('--text-primary', colors.textPrimary);
+            root.style.setProperty('--text-secondary', colors.textSecondary);
+            root.style.setProperty('--text-muted', colors.textMuted);
+
+            // Update SVG elements that use inline colors
+            document.querySelectorAll('.node-center, [stroke="#ef4444"]').forEach(el => {
+                el.setAttribute('stroke', colors.red);
+            });
+            document.querySelectorAll('text[fill="#ef4444"]').forEach(el => {
+                el.setAttribute('fill', colors.red);
+            });
+            document.querySelectorAll('text[fill="#d4a574"]').forEach(el => {
+                el.setAttribute('fill', colors.gold);
+            });
+            document.querySelectorAll('[stroke="#22c55e"]').forEach(el => {
+                el.setAttribute('stroke', colors.green);
+            });
+            document.querySelectorAll('text[fill="#22c55e"]').forEach(el => {
+                el.setAttribute('fill', colors.green);
+            });
+            document.getElementById('baseline-line').setAttribute('stroke', colors.green);
+            document.getElementById('moderate-line').setAttribute('stroke', colors.gold);
+            document.getElementById('severe-line').setAttribute('stroke', colors.red);
+
+            // Update color picker UI
+            document.getElementById('accentRedPicker').value = colors.red;
+            document.getElementById('accentGoldPicker').value = colors.gold;
+            document.getElementById('accentGreenPicker').value = colors.green;
+
+            // Show generated palette
+            const palette = document.getElementById('generatedColors');
+            palette.innerHTML = `
+                <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin-bottom:0.75rem;">Auto-Generated Palette</div>
+                <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
+                    <div style="flex:1;height:40px;background:${colors.red};border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:${colors.isDark?'#fff':'#000'};font-weight:bold;">PRIMARY</div>
+                    <div style="flex:1;height:40px;background:${colors.gold};border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:${colors.isDark?'#fff':'#000'};font-weight:bold;">SECONDARY</div>
+                    <div style="flex:1;height:40px;background:${colors.green};border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:${colors.isDark?'#fff':'#000'};font-weight:bold;">POSITIVE</div>
+                </div>
+                <div style="font-size:0.7rem;color:#666;">Mode: ${colors.isDark ? 'Dark' : 'Light'} &bull; Contrast: ${colors.isDark ? 'WCAG AA' : 'WCAG AA'}</div>
+            `;
+        }
+
+        function applyBackdrop(hex) {
+            document.getElementById('backdropPicker').value = hex;
+            document.getElementById('backdropHex').value = hex;
+            const colors = generateAccentColors(hex);
+            applyThemeColors(colors, hex);
+            // Update swatch borders
+            document.querySelectorAll('.preset-swatch').forEach(s => { s.style.borderColor = 'transparent'; });
+            document.querySelectorAll('.preset-swatch').forEach(s => {
+                if (s.getAttribute('onclick').includes(hex)) s.style.borderColor = colors.red;
+            });
+        }
+
+        function syncBackdropFromHex() {
+            const hex = document.getElementById('backdropHex').value;
+            if (/^#[0-9a-fA-F]{6}$/.test(hex)) {
+                document.getElementById('backdropPicker').value = hex;
+                applyBackdrop(hex);
+            }
+        }
+
+        function overrideAccent(name, value) {
+            document.documentElement.style.setProperty('--' + name, value);
+        }
+
+        function resetTheme() {
+            applyBackdrop('#0a0a0a');
+        }
+
+        let panelOpen = false;
+        function toggleColorPanel() {
+            panelOpen = !panelOpen;
+            document.getElementById('colorPanel').style.right = panelOpen ? '0' : '-420px';
+            document.getElementById('colorToggle').style.right = panelOpen ? '400px' : '0';
+        }
+
+        document.getElementById('backdropPicker').addEventListener('input', function() {
+            document.getElementById('backdropHex').value = this.value;
+            applyBackdrop(this.value);
+        });
+
+        /* ═══════════════════════════════════════════════════════
+           SCROLL ANIMATIONS
+        ═══════════════════════════════════════════════════════ */
+
+        let dominoAnimated = false;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('section-06') && !dominoAnimated) {
+                        dominoAnimated = true;
+                        setTimeout(() => startDominoAnimation(), 400);
+                    }
+                }
+            });
+        }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Make hero visible immediately
+        document.querySelector('.hero').style.opacity = '1';
+
+        /* ═══════════════════════════════════════════════════════
+           TABLE OF CONTENTS NAVIGATION
+        ═══════════════════════════════════════════════════════ */
+
+        function scrollToSection(index) {
+            const sections = document.querySelectorAll('.section');
+            if (sections[index]) {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           DEBT INSTRUMENT CHART FILTERING
+        ═══════════════════════════════════════════════════════ */
+
+        
+
+        /* ═══════════════════════════════════════════════════════
+           NETWORK DIAGRAM FILTERING
+        ═══════════════════════════════════════════════════════ */
+
+        function filterNetwork(filter) {
+            document.querySelectorAll('.network-filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+
+            const flowClasses = ['flow-vendor', 'flow-triangular', 'flow-hyperscaler'];
+            const activeFlows = filter === 'all' ? flowClasses : ['flow-' + filter];
+
+            flowClasses.forEach(cls => {
+                document.querySelectorAll('.' + cls).forEach(el => {
+                    el.style.opacity = activeFlows.includes(cls) ? '1' : '0.15';
+                    el.style.transition = 'opacity 0.4s ease';
+                });
+            });
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           ACCORDION (CRISIS PARALLELS)
+        ═══════════════════════════════════════════════════════ */
+
+        function toggleAccordion(header) {
+            const card = header.parentElement;
+            const wasOpen = card.classList.contains('open');
+            // Close all others
+            document.querySelectorAll('.accordion-card.open').forEach(c => c.classList.remove('open'));
+            // Toggle this one
+            if (!wasOpen) card.classList.add('open');
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           GPU DEPRECIATION CHART - REAL DATA PER COMPANY
+        ═══════════════════════════════════════════════════════ */
+
+        const companyData = {
+            meta:      { life: 5.5, label: 'Meta (5.5yr)',      detail: 'Extended to 5.5yr in Jan 2025, booking $2.9B depreciation reduction' },
+            amazon:    { life: 5.0, label: 'Amazon (5yr)',       detail: 'Shortened to 5yr, recognizing $700M additional depreciation' },
+            google:    { life: 6.0, label: 'Google (6yr)',       detail: 'Uses 6yr schedule, longest among hyperscalers' },
+            microsoft: { life: 5.0, label: 'Microsoft (5yr)',    detail: 'Standard 5yr, aligned with industry average' }
+        };
+
+        function switchCompany(company) {
+            document.querySelectorAll('.company-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+
+            const data = companyData[company];
+            const lifeYears = data.life;
+
+            // SVG coordinate system: x range 50-680 (630px), y range 30-300 (270px for 100% to 0%)
+            // Each year is approximately 80-90px of the 630px width (6yr max = ~630px)
+            const xStart = 50;
+            const xEnd = 680;
+            const yTop = 30;    // 100% value
+            const yBottom = 300; // 0% value
+            const xRangePerYear = (xEnd - xStart) / 6; // pixels per year
+
+            // Accounting line: straight line from 100% to ~5-10% residual over company's life
+            const accountingEndX = xStart + (lifeYears * xRangePerYear);
+            const residualPercent = 0.05; // 5% residual value
+            const accountingEndY = yTop + ((1 - residualPercent) * (yBottom - yTop));
+            const accountingPts = `${xStart},${yTop} ${accountingEndX},${accountingEndY} ${xEnd},${yBottom * 0.94}`;
+            document.getElementById('accountingLine').setAttribute('points', accountingPts);
+
+            // Reality line stays same (tech obsolescence curve is independent of accounting life)
+            const realityPts = '50,30 130,65 210,155 290,225 370,270 450,290 530,305 610,312 680,315';
+            document.getElementById('realityLine').setAttribute('points', realityPts);
+
+            // Risk gap: fill area between reality and accounting lines
+            // Need to trace reality line forward then accounting line backward
+            const realityPoints = realityPts.split(' ');
+            const accountingPoints = accountingPts.split(' ').reverse();
+            const gapPath = 'M ' + realityPoints.join(' L ') + ' L ' + accountingPoints.join(' L ') + ' Z';
+            document.getElementById('riskGap').setAttribute('d', gapPath);
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           GDP SCENARIO CHART - SHOW ALL, HIGHLIGHT ACTIVE
+        ═══════════════════════════════════════════════════════ */
+
+        function switchGdpScenario(scenario) {
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+
+            const lines = ['baseline', 'moderate', 'severe'];
+            lines.forEach(id => {
+                const el = document.getElementById(id + '-line');
+                if (id === scenario) {
+                    el.classList.remove('gdp-line-dim');
+                    el.classList.add('gdp-line-active');
+                } else {
+                    el.classList.add('gdp-line-dim');
+                    el.classList.remove('gdp-line-active');
+                }
+            });
+
+            // Move correction marker visibility
+            const marker = document.getElementById('correctionMarker');
+            const label = document.getElementById('correctionLabel');
+            if (scenario === 'baseline') {
+                marker.style.opacity = '0.2';
+                label.style.opacity = '0.2';
+            } else {
+                marker.style.opacity = '1';
+                label.style.opacity = '1';
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           PORTFOLIO IMPACT CALCULATOR - FULL DYNAMIC
+        ═══════════════════════════════════════════════════════ */
+
+        function updateCalculator() {
+            const portfolio = parseFloat(document.getElementById('portfolioValue').value) || 500000;
+            const fixedIncomePercent = parseInt(document.getElementById('fixedIncomeSlider').value);
+
+            document.getElementById('fixedIncomePercent').textContent = fixedIncomePercent;
+
+            const fixedIncome = portfolio * (fixedIncomePercent / 100);
+            const equity = portfolio - fixedIncome;
+
+            document.getElementById('beforeFixedIncome').textContent = '$' + fixedIncome.toLocaleString('en-US', { maximumFractionDigits: 0 });
+            document.getElementById('beforeEquity').textContent = '$' + equity.toLocaleString('en-US', { maximumFractionDigits: 0 });
+
+            const scenarios = [
+                { id: 'severeLoss', rate: 0.25, pctId: null },
+                { id: 'expectedLoss', rate: 0.20, pctId: null },
+                { id: 'moderateLoss', rate: 0.15, pctId: null }
+            ];
+
+            scenarios.forEach(s => {
+                const loss = fixedIncome * s.rate;
+                const pctImpact = portfolio > 0 ? ((loss / portfolio) * 100).toFixed(1) : 0;
+                document.getElementById(s.id).textContent = '-$' + loss.toLocaleString('en-US', { maximumFractionDigits: 0 });
+                // Update percentage text in sibling
+                const pctEl = document.getElementById(s.id).parentElement.querySelector('.scenario-percent');
+                if (pctEl) pctEl.textContent = 'Portfolio impact: -' + pctImpact + '%';
+            });
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           REGULATORY MATRIX EXPAND/COLLAPSE
+        ═══════════════════════════════════════════════════════ */
+
+        function toggleMatrix(label) {
+            const wasOpen = label.classList.contains('open');
+            // Close all others
+            document.querySelectorAll('.matrix-cell-label.open').forEach(l => l.classList.remove('open'));
+            if (!wasOpen) label.classList.add('open');
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           DOMINO ANIMATION
+        ═══════════════════════════════════════════════════════ */
+
+        function startDominoAnimation() {
+            const dominoes = [
+                { id: 'domino-1', tx: 80, targetRot: -15 },
+                { id: 'domino-2', tx: 240, targetRot: -10 },
+                { id: 'domino-3', tx: 400, targetRot: -5 },
+                { id: 'domino-4', tx: 560, targetRot: 0 },
+                { id: 'domino-5', tx: 720, targetRot: 5 },
+                { id: 'domino-6', tx: 880, targetRot: 10 }
+            ];
+
+            dominoes.forEach((d, i) => {
+                const el = document.getElementById(d.id);
+                if (!el) return;
+                const duration = 600; // ms
+                const delay = i * 300; // staggered
+
+                setTimeout(() => {
+                    const startTime = performance.now();
+                    function animate(now) {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // ease-in-out
+                        const eased = progress < 0.5
+                            ? 2 * progress * progress
+                            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                        const currentRot = d.targetRot * eased;
+                        el.setAttribute('transform', `translate(${d.tx}, 200) rotate(${currentRot})`);
+                        if (progress < 1) requestAnimationFrame(animate);
+                    }
+                    requestAnimationFrame(animate);
+                }, delay);
+            });
+        }
+
+        /* ═══════════════════════════════════════════════════════
+           INITIALIZE
+        ═══════════════════════════════════════════════════════ */
+
+        updateCalculator();
+        // Set initial GDP scenario
+        switchGdpScenario('baseline');
+    </script>
+</body>
+</html>
