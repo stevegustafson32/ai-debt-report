@@ -68,6 +68,18 @@
             color: var(--gold);
         }
 
+        /* Global focus-visible styles for keyboard accessibility */
+        a:focus-visible,
+        button:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid var(--red);
+            outline-offset: 2px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
         /* HERO SECTION */
         .hero {
             min-height: 100vh;
@@ -202,6 +214,8 @@
 
         .ticker-separator {
             color: var(--red);
+            font-size: 0.5rem;
+            vertical-align: middle;
         }
 
         @keyframes scroll-left {
@@ -275,9 +289,22 @@
             border: 1px solid var(--grid-color);
             cursor: pointer;
             transition: all 0.3s ease;
+            background: transparent;
+            font-family: inherit;
+            text-align: left;
+            width: 100%;
+            display: block;
+            color: inherit;
         }
 
         .contents-item:hover {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .contents-item:focus-visible {
+            outline: 2px solid var(--red);
+            outline-offset: 2px;
             border-color: var(--red);
             background: rgba(239, 68, 68, 0.05);
         }
@@ -1259,7 +1286,7 @@
                 <span>2024-2026</span>
             </div>
             <div class="hero-tag">INTERACTIVE REPORT</div>
-            <h1 class="hero-title">AI DATA CENTER<br>DEBT <span class="highlight">DERIVATIVES</span></h1>
+            <h1 class="hero-title">AI Data Center<br>Debt <span class="highlight">Derivatives</span></h1>
             <p class="hero-subtitle">A comprehensive analysis of the $200B+ debt infrastructure financing the AI revolution, and the systemic risks it poses to the broader economy and individual investors.</p>
             <div class="hero-stats">
                 <div class="stat-box">
@@ -1271,7 +1298,7 @@
                     <div class="stat-label">Instrument Types</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-value">2-3yr</div>
+                    <div class="stat-value">2–3yr</div>
                     <div class="stat-label">GPU Tech Life</div>
                 </div>
             </div>
@@ -1286,37 +1313,34 @@
     </section>
 
     <!-- TICKER -->
-    <div class="ticker-container">
-        <div class="ticker">
+    <div class="ticker-container" aria-hidden="true">
+        <div class="ticker" id="ticker-track">
             <span class="ticker-item">IG BOND ISSUANCE $93B</span>
-            <span class="ticker-separator">/</span>
+            <span class="ticker-separator">&#x2022;</span>
             <span class="ticker-item">ABS TRANSACTIONS 27</span>
-            <span class="ticker-separator">/</span>
+            <span class="ticker-separator">&#x2022;</span>
             <span class="ticker-item">CMBS VOLUME $7.14B</span>
-            <span class="ticker-separator">/</span>
+            <span class="ticker-separator">&#x2022;</span>
             <span class="ticker-item">PRIVATE CREDIT $200B+</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">GPU TECH LIFE 2-3 YR</span>
-            <span class="ticker-separator">/</span>
+            <span class="ticker-separator">&#x2022;</span>
+            <span class="ticker-item">GPU TECH LIFE 2–3 YR</span>
+            <span class="ticker-separator">&#x2022;</span>
             <span class="ticker-item">ORACLE CDS +200%</span>
-            <span class="ticker-separator">/</span>
+            <span class="ticker-separator">&#x2022;</span>
             <span class="ticker-item">GDP EXPOSURE 40%+</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">IG BOND ISSUANCE $93B</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">ABS TRANSACTIONS 27</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">CMBS VOLUME $7.14B</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">PRIVATE CREDIT $200B+</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">GPU TECH LIFE 2-3 YR</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">ORACLE CDS +200%</span>
-            <span class="ticker-separator">/</span>
-            <span class="ticker-item">GDP EXPOSURE 40%+</span>
+            <span class="ticker-separator">&#x2022;</span>
         </div>
     </div>
+    <script>
+    // Clone ticker content for seamless infinite scroll
+    (function() {
+        const track = document.getElementById('ticker-track');
+        if (track) {
+            const clone = track.innerHTML;
+            track.innerHTML = clone + clone;
+        }
+    })();
+    </script>
 
     <!-- SECTION 00: EXECUTIVE SUMMARY -->
     <section class="section section-00">
@@ -1330,52 +1354,52 @@
             </div>
 
             <h3 style="font-size: 1.2rem; margin-top: 3rem; margin-bottom: 1.5rem;">CONTENTS</h3>
-            <div class="contents-grid">
-                <div class="contents-item" onclick="scrollToSection(0)">
-                    <div class="contents-number">00</div>
-                    <div class="contents-title">Executive Summary</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(1)">
-                    <div class="contents-number">01</div>
-                    <div class="contents-title">The $3 Trillion Infrastructure Stack</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(2)">
-                    <div class="contents-number">02</div>
-                    <div class="contents-title">Structure & Mechanics</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(3)">
-                    <div class="contents-number">03</div>
-                    <div class="contents-title">Key Companies & Deals</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(4)">
-                    <div class="contents-number">04</div>
-                    <div class="contents-title">Structural Echoes: Subprime Crisis Parallels</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(5)">
-                    <div class="contents-number">05</div>
-                    <div class="contents-title">The GPU Depreciation Time Bomb</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(6)">
-                    <div class="contents-number">06</div>
-                    <div class="contents-title">Downgrade Scenarios & Cascade Effects</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(7)">
-                    <div class="contents-number">07</div>
-                    <div class="contents-title">Impact on 401k & Pension Holdings</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(8)">
-                    <div class="contents-number">08</div>
-                    <div class="contents-title">Systemic Risk & Macroeconomic Implications</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(9)">
-                    <div class="contents-number">09</div>
-                    <div class="contents-title">Regulatory Oversight Gaps</div>
-                </div>
-                <div class="contents-item" onclick="scrollToSection(10)">
-                    <div class="contents-number">10</div>
-                    <div class="contents-title">Expert Warnings & Early Signals</div>
-                </div>
-            </div>
+            <nav class="contents-grid" aria-label="Table of Contents">
+                <button class="contents-item" type="button" onclick="scrollToSection(0)" aria-label="Section 00: Executive Summary">
+                    <span class="contents-number">00</span>
+                    <span class="contents-title">Executive Summary</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(1)" aria-label="Section 01: The $3 Trillion Infrastructure Stack">
+                    <span class="contents-number">01</span>
+                    <span class="contents-title">The $3 Trillion Infrastructure Stack</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(2)" aria-label="Section 02: Structure &amp; Mechanics">
+                    <span class="contents-number">02</span>
+                    <span class="contents-title">Structure &amp; Mechanics</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(3)" aria-label="Section 03: Key Companies &amp; Deals">
+                    <span class="contents-number">03</span>
+                    <span class="contents-title">Key Companies &amp; Deals</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(4)" aria-label="Section 04: Structural Echoes — Subprime Crisis Parallels">
+                    <span class="contents-number">04</span>
+                    <span class="contents-title">Structural Echoes — Subprime Crisis Parallels</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(5)" aria-label="Section 05: The GPU Depreciation Time Bomb">
+                    <span class="contents-number">05</span>
+                    <span class="contents-title">The GPU Depreciation Time Bomb</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(6)" aria-label="Section 06: Downgrade Scenarios &amp; Cascade Effects">
+                    <span class="contents-number">06</span>
+                    <span class="contents-title">Downgrade Scenarios &amp; Cascade Effects</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(7)" aria-label="Section 07: Impact on 401k &amp; Pension Holdings">
+                    <span class="contents-number">07</span>
+                    <span class="contents-title">Impact on 401k &amp; Pension Holdings</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(8)" aria-label="Section 08: Systemic Risk &amp; Macroeconomic Implications">
+                    <span class="contents-number">08</span>
+                    <span class="contents-title">Systemic Risk &amp; Macroeconomic Implications</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(9)" aria-label="Section 09: Regulatory Oversight Gaps">
+                    <span class="contents-number">09</span>
+                    <span class="contents-title">Regulatory Oversight Gaps</span>
+                </button>
+                <button class="contents-item" type="button" onclick="scrollToSection(10)" aria-label="Section 10: Expert Warnings &amp; Early Signals">
+                    <span class="contents-number">10</span>
+                    <span class="contents-title">Expert Warnings &amp; Early Signals</span>
+                </button>
+            </nav>
         </div>
 
         <div class="section-sidebar">
@@ -1385,7 +1409,7 @@
                 <div class="stat-card-label">AI data center debt issuance in 2025</div>
             </div>
             <div class="stat-card">
-                <div class="stat-card-value">2-3yr</div>
+                <div class="stat-card-value">2–3yr</div>
                 <span class="stat-card-badge">WARNING</span>
                 <div class="stat-card-label">GPU technological life vs 5-6 year accounting schedules</div>
             </div>
@@ -2028,7 +2052,7 @@
                     <!-- Accounting line: dashed gold (straight line from 100% to residual) -->
                     <polyline id="accountingLine" class="line-accounting" points="50,30 365,210 680,282" />
 
-                    <!-- Reality line: solid red (steep drop at 2-3yr mark) -->
+                    <!-- Reality line: solid red (steep drop at 2–3yr mark) -->
                     <polyline id="realityLine" class="line-reality" points="50,30 130,65 210,155 290,225 370,270 450,290 530,305 610,312 680,315" />
 
                     <!-- Line labels/legend on chart -->
@@ -2111,7 +2135,7 @@
                     <!-- Stage Labels Below -->
                     <text x="80" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">TRIGGER EVENT</text>
                     <text x="80" y="285" text-anchor="middle" font-size="9" fill="#999">GPU Obsolescence</text>
-                    <text x="80" y="298" text-anchor="middle" font-size="8" fill="#666">H100 → Blackwell: 25x efficiency gain in 2-3yr</text>
+                    <text x="80" y="298" text-anchor="middle" font-size="8" fill="#666">H100 → Blackwell: 25x efficiency gain in 2–3yr</text>
 
                     <text x="240" y="270" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">MARK-TO-MARKET</text>
                     <text x="240" y="285" text-anchor="middle" font-size="9" fill="#999">Collateral Revaluation</text>
